@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard — Paris vs Monaco</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-badge">BASKET — FINALE</div>
+        <h1>PARIS vs MONACO</h1>
+        <p>Probabilités mises à jour automatiquement via GitHub Actions</p>
+
+        <div class="header-stats">
+            <div class="hstat">
+                <div class="hstat-val" id="header-paris-prob">--%</div>
+                <div class="hstat-label">Paris</div>
+            </div>
+            <div class="hstat">
+                <div class="hstat-val" id="header-monaco-prob">--%</div>
+                <div class="hstat-label">Monaco</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="qt">Évolution QT</button>
+        <button class="tab-btn" data-tab="mc">Monte‑Carlo</button>
+        <button class="tab-btn" data-tab="h2h">H2H</button>
+        <button class="tab-btn" data-tab="stats">Stats</button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- SECTION QT -->
+        <section id="qt" class="section active">
+            <div class="section-title">Évolution des probabilités</div>
+            <div class="section-sub">Probabilités de victoire au fil du match</div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Graphique</div>
+                    <div class="chart-wrap">
+                        <canvas id="probChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Détails par QT</div>
+                    <div id="before_match"></div>
+                    <div id="after_q1"></div>
+                    <div id="after_q2"></div>
+                    <div id="after_q3"></div>
+                    <div id="after_q4"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION MONTE CARLO -->
+        <section id="mc" class="section">
+            <div class="section-title">Simulation Monte‑Carlo</div>
+            <div class="section-sub">10 000 simulations de fin de match</div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Graphique</div>
+                    <div class="chart-wrap">
+                        <canvas id="mcChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Résultat</div>
+                    <div id="montecarlo"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION H2H -->
+        <section id="h2h" class="section">
+            <div class="section-title">Historique des confrontations</div>
+            <div class="section-sub">Paris vs Monaco — toutes compétitions</div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Graphique</div>
+                    <div class="chart-wrap-sm">
+                        <canvas id="h2hChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Données</div>
+                    <div id="h2h-global"></div>
+                    <div id="h2h-last5"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION STATS -->
+        <section id="stats" class="section">
+            <div class="section-title">Comparaison statistique</div>
+            <div class="section-sub">Ratings, forme, PPG, OPPG</div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">Graphique</div>
+                    <div class="chart-wrap-sm">
+                        <canvas id="statsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Données</div>
+                    <div id="stats-compare"></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        Projet Data — Maxence
+    </footer>
+
+    <!-- JS -->
+    <script type="module" src="js/chart.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Tabs script -->
+    <script>
+        const tabs = document.querySelectorAll(".tab-btn");
+        const sections = document.querySelectorAll(".section");
+
+        tabs.forEach(btn => {
+            btn.addEventListener("click", () => {
+                tabs.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                sections.forEach(sec => sec.classList.remove("active"));
+                document.getElementById(btn.dataset.tab).classList.add("active");
+            });
+        });
+    </script>
+
+</body>
+</html>
