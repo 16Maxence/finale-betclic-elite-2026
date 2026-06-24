@@ -1,0 +1,14 @@
+{
+  "paris_last5": {
+    "wins": 3,
+    "losses": 2,
+    "ppg": 90.2,
+    "opp_ppg": 91.4
+  },
+  "monaco_last5": {
+    "wins": 3,
+    "losses": 2,
+    "ppg": 91.0,
+    "opp_ppg": 87.0
+  }
+}
