@@ -1,4 +1,6 @@
+// -----------------------------
 // Chargement générique JSON
+// -----------------------------
 async function loadJSON(path) {
     const response = await fetch(path);
     return await response.json();
@@ -6,10 +8,17 @@ async function loadJSON(path) {
 
 async function init() {
     const pred = await loadJSON("data/predictions.json");
+    const h2h = await loadJSON("data/h2h.json");
+    const stats = await loadJSON("data/stats.json");
+    const injuries = await loadJSON("data/injuries.json");
 
     updateHeader(pred);
     updateQT(pred);
     renderProbChart(pred);
+
+    updateH2H(h2h);
+    updateStats(stats);
+    updateInjuries(injuries);
 }
 
 init();
@@ -19,7 +28,6 @@ init();
 // HEADER
 // -----------------------------
 function updateHeader(pred) {
-    // On prend les probabilités AVANT MATCH
     const paris = pred.before_match.paris_win_prob;
     const monaco = pred.before_match.monaco_win_prob;
 
@@ -96,4 +104,72 @@ function renderProbChart(pred) {
             }
         }
     });
+}
+
+
+// -----------------------------
+// H2H GLOBAL
+// -----------------------------
+function updateH2H(h2h) {
+    const g = h2h.global;
+
+    const container = document.getElementById("h2h-global");
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="info-box">
+            <b>Face-à-face global :</b><br>
+            ${g.total_matches} matchs<br>
+            Paris : ${g.paris_wins} victoires<br>
+            Monaco : ${g.monaco_wins} victoires
+        </div>
+    `;
+}
+
+
+// -----------------------------
+// STATS LAST 5
+// -----------------------------
+function updateStats(stats) {
+    const container = document.getElementById("stats-compare");
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="info-box">
+            <b>5 derniers matchs — Paris</b><br>
+            ${stats.paris_last5.wins}V - ${stats.paris_last5.losses}D<br>
+            Pts marqués : ${stats.paris_last5.ppg}<br>
+            Pts encaissés : ${stats.paris_last5.opp_ppg}
+        </div>
+
+        <div class="info-box">
+            <b>5 derniers matchs — Monaco</b><br>
+            ${stats.monaco_last5.wins}V - ${stats.monaco_last5.losses}D<br>
+            Pts marqués : ${stats.monaco_last5.ppg}<br>
+            Pts encaissés : ${stats.monaco_last5.opp_ppg}
+        </div>
+    `;
+}
+
+
+// -----------------------------
+// INJURIES
+// -----------------------------
+function updateInjuries(inj) {
+    const container = document.getElementById("injuries");
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="info-box">
+            <b>Paris</b><br>
+            Blessés : ${inj.paris.out.join(", ") || "Aucun"}<br>
+            Retours : ${inj.paris.in.join(", ") || "Aucun"}
+        </div>
+
+        <div class="info-box">
+            <b>Monaco</b><br>
+            Blessés : ${inj.monaco.out.join(", ") || "Aucun"}<br>
+            Retours : ${inj.monaco.in.join(", ") || "Aucun"}
+        </div>
+    `;
 }
