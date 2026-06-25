@@ -46,9 +46,7 @@ function renderProbChart(pred) {
                     backgroundColor: "rgba(0,195,255,0.25)",
                     borderWidth: 4,
                     tension: 0.3,
-                    fill: true,
-                    shadowColor: "#00c3ff",
-                    shadowBlur: 18
+                    fill: true
                 },
                 {
                     label: "Monaco",
@@ -57,28 +55,16 @@ function renderProbChart(pred) {
                     backgroundColor: "rgba(255,0,76,0.25)",
                     borderWidth: 4,
                     tension: 0.3,
-                    fill: true,
-                    shadowColor: "#ff004c",
-                    shadowBlur: 18
+                    fill: true
                 }
             ]
         },
         options: {
             responsive: true,
-            plugins: {
-                legend: { labels: { color: "white" } }
-            },
+            plugins: { legend: { labels: { color: "white" } } },
             scales: {
-                y: {
-                    min: 0,
-                    max: 100,
-                    ticks: { color: "white" },
-                    grid: { color: "rgba(255,255,255,0.05)" }
-                },
-                x: {
-                    ticks: { color: "white" },
-                    grid: { color: "rgba(255,255,255,0.05)" }
-                }
+                y: { min: 0, max: 100, ticks: { color: "white" } },
+                x: { ticks: { color: "white" } }
             }
         }
     });
@@ -103,21 +89,21 @@ function renderMonteCarloChart(pred) {
         },
         options: {
             cutout: "65%",
-            plugins: {
-                legend: { labels: { color: "white" } }
-            }
+            plugins: { legend: { labels: { color: "white" } } }
         }
     });
 }
 
 // ======================================================
-// 3. Graphique : Histogramme Monte‑Carlo (optionnel)
+// 3. Graphique : Histogramme Monte‑Carlo
 // ======================================================
 function renderMonteCarloDistribution(mcData) {
-    const ctx = document.getElementById("mcDistChart");
-    if (!ctx) return; // si pas de canvas, on ignore
+    const canvas = document.getElementById("mcDistChart");
+    if (!canvas) return;
 
-    new Chart(ctx.getContext("2d"), {
+    const ctx = canvas.getContext("2d");
+
+    new Chart(ctx, {
         type: "bar",
         data: {
             labels: ["Paris", "Monaco"],
@@ -131,23 +117,15 @@ function renderMonteCarloDistribution(mcData) {
         options: {
             plugins: { legend: { display: false } },
             scales: {
-                y: {
-                    min: 0,
-                    max: 100,
-                    ticks: { color: "white" },
-                    grid: { color: "rgba(255,255,255,0.05)" }
-                },
-                x: {
-                    ticks: { color: "white" },
-                    grid: { display: false }
-                }
+                y: { min: 0, max: 100, ticks: { color: "white" } },
+                x: { ticks: { color: "white" } }
             }
         }
     });
 }
 
 // ======================================================
-// 4. Graphique : H2H global
+// 4. Graphique : H2H global (barres)
 // ======================================================
 function renderH2HChart(h2h) {
     const ctx = document.getElementById("h2hChart").getContext("2d");
@@ -166,67 +144,152 @@ function renderH2HChart(h2h) {
         options: {
             plugins: { legend: { display: false } },
             scales: {
-                y: {
-                    ticks: { color: "white" },
-                    grid: { color: "rgba(255,255,255,0.05)" }
-                },
-                x: {
-                    ticks: { color: "white" },
-                    grid: { display: false }
-                }
+                y: { ticks: { color: "white" } },
+                x: { ticks: { color: "white" } }
             }
         }
     });
 }
 
 // ======================================================
-// 5. Graphique : Stats (radar)
+// 5. Graphique : Historique des scores (line chart)
 // ======================================================
-function renderStatsChart(stats) {
-    const ctx = document.getElementById("statsChart").getContext("2d");
+function renderH2HHistory(h2h) {
+    const canvas = document.getElementById("h2hHistoryChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    const labels = h2h.last_matches.map(m => m.date);
+    const parisScores = h2h.last_matches.map(m => m.paris);
+    const monacoScores = h2h.last_matches.map(m => m.monaco);
 
     new Chart(ctx, {
-        type: "radar",
+        type: "line",
         data: {
-            labels: ["PPG", "Opp PPG", "Wins", "Losses"],
+            labels,
             datasets: [
                 {
                     label: "Paris",
-                    data: [
-                        stats.paris_last5.ppg,
-                        stats.paris_last5.opp_ppg,
-                        stats.paris_last5.wins,
-                        stats.paris_last5.losses
-                    ],
+                    data: parisScores,
                     borderColor: "#00c3ff",
-                    backgroundColor: "rgba(0,195,255,0.3)",
-                    borderWidth: 2
+                    backgroundColor: "rgba(0,195,255,0.25)",
+                    borderWidth: 3,
+                    tension: 0.3
                 },
                 {
                     label: "Monaco",
-                    data: [
-                        stats.monaco_last5.ppg,
-                        stats.monaco_last5.opp_ppg,
-                        stats.monaco_last5.wins,
-                        stats.monaco_last5.losses
-                    ],
+                    data: monacoScores,
                     borderColor: "#ff004c",
-                    backgroundColor: "rgba(255,0,76,0.3)",
-                    borderWidth: 2
+                    backgroundColor: "rgba(255,0,76,0.25)",
+                    borderWidth: 3,
+                    tension: 0.3
                 }
             ]
         },
         options: {
+            plugins: { legend: { labels: { color: "white" } } },
             scales: {
-                r: {
-                    angleLines: { color: "rgba(255,255,255,0.1)" },
-                    grid: { color: "rgba(255,255,255,0.1)" },
-                    pointLabels: { color: "white" },
-                    ticks: { display: false }
+                y: { ticks: { color: "white" } },
+                x: { ticks: { color: "white" } }
+            }
+        }
+    });
+}
+
+// ======================================================
+// 6. Graphique : Stats moyennes (bar chart)
+// ======================================================
+function renderH2HAverages(h2h) {
+    const canvas = document.getElementById("h2hAvgChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    const labels = ["PPG", "Opp PPG", "%2pts", "%3pts", "Reb", "TO"];
+
+    const paris = [
+        h2h.averages.paris.ppg,
+        h2h.averages.paris.opp_ppg,
+        h2h.averages.paris.fg2_pct,
+        h2h.averages.paris.fg3_pct,
+        h2h.averages.paris.reb,
+        h2h.averages.paris.to
+    ];
+
+    const monaco = [
+        h2h.averages.monaco.ppg,
+        h2h.averages.monaco.opp_ppg,
+        h2h.averages.monaco.fg2_pct,
+        h2h.averages.monaco.fg3_pct,
+        h2h.averages.monaco.reb,
+        h2h.averages.monaco.to
+    ];
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Paris",
+                    data: paris,
+                    backgroundColor: "#00c3ff",
+                    borderRadius: 6
+                },
+                {
+                    label: "Monaco",
+                    data: monaco,
+                    backgroundColor: "#ff004c",
+                    borderRadius: 6
                 }
-            },
-            plugins: {
-                legend: { labels: { color: "white" } }
+            ]
+        },
+        options: {
+            plugins: { legend: { labels: { color: "white" } } },
+            scales: {
+                y: { ticks: { color: "white" } },
+                x: { ticks: { color: "white" } }
+            }
+        }
+    });
+}
+
+// ======================================================
+// 7. Graphique : Cumul des victoires (line chart)
+// ======================================================
+function renderH2HCumulative(h2h) {
+    const canvas = document.getElementById("h2hCumulativeChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: h2h.cumulative.labels,
+            datasets: [
+                {
+                    label: "Paris",
+                    data: h2h.cumulative.paris,
+                    borderColor: "#00c3ff",
+                    borderWidth: 3,
+                    tension: 0.3
+                },
+                {
+                    label: "Monaco",
+                    data: h2h.cumulative.monaco,
+                    borderColor: "#ff004c",
+                    borderWidth: 3,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            plugins: { legend: { labels: { color: "white" } } },
+            scales: {
+                y: { ticks: { color: "white" } },
+                x: { ticks: { color: "white" } }
             }
         }
     });
