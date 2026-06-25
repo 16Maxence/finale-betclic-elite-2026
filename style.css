@@ -70,14 +70,14 @@ h2 {
    SECTIONS (ONGLETS)
 ------------------------------ */
 .section {
-    display: none; /* caché par défaut */
+    display: none;
     margin: 40px auto;
     max-width: 900px;
     padding: 20px;
 }
 
 .section.active {
-    display: block; /* section visible */
+    display: block;
 }
 
 /* ------------------------------
@@ -130,12 +130,17 @@ h2 {
    CANVAS / GRAPHIQUES
 ------------------------------ */
 canvas {
-    max-width: 550px !important;
     margin: 20px auto !important;
     display: block !important;
 }
 
-#probChart,
+/* 🔥 GRAPH PROBA PLUS GRAND 🔥 */
+#probChart {
+    max-width: 800px !important;   /* élargi */
+    height: 420px !important;      /* plus haut */
+}
+
+/* autres graphs restent normaux */
 #mcChart,
 #h2hChart,
 #statsChart {
@@ -157,6 +162,11 @@ canvas {
     .qt-card,
     .info-box {
         font-size: 14px;
+    }
+
+    #probChart {
+        max-width: 95% !important;
+        height: 350px !important;
     }
 
     canvas {
