@@ -26,6 +26,9 @@ async function init() {
     renderStatsChart(stats);
 
     updateInjuries(injuries);
+
+    // Affiche la section Probabilités au chargement
+    showSection("prob");
 }
 
 init();
@@ -66,56 +69,7 @@ function updateQT(pred) {
 
 
 // -----------------------------
-// GRAPHIQUE — Évolution QT
-// -----------------------------
-function renderProbChart(pred) {
-    const ctx = document.getElementById("probChart");
-
-    new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: ["Avant", "Q1", "Q2", "Q3", "Q4"],
-            datasets: [
-                {
-                    label: "Paris",
-                    data: [
-                        pred.before_match.paris_win_prob,
-                        pred.after_q1.paris_win_prob,
-                        pred.after_q2.paris_win_prob,
-                        pred.after_q3.paris_win_prob,
-                        pred.after_q4.paris_win_prob
-                    ],
-                    borderColor: "#00c3ff",
-                    tension: 0.3
-                },
-                {
-                    label: "Monaco",
-                    data: [
-                        pred.before_match.monaco_win_prob,
-                        pred.after_q1.monaco_win_prob,
-                        pred.after_q2.monaco_win_prob,
-                        pred.after_q3.monaco_win_prob,
-                        pred.after_q4.monaco_win_prob
-                    ],
-                    borderColor: "#ff004c",
-                    tension: 0.3
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { labels: { color: "white" } } },
-            scales: {
-                x: { ticks: { color: "white" } },
-                y: { ticks: { color: "white" } }
-            }
-        }
-    });
-}
-
-
-// -----------------------------
-// MONTE CARLO H2H (NOUVEAU)
+// MONTE CARLO H2H
 // -----------------------------
 function updateMonteCarlo(pred) {
     const mc = pred.montecarlo_h2h;
@@ -127,23 +81,6 @@ function updateMonteCarlo(pred) {
             Monaco : ${mc.monaco}%
         </div>
     `;
-}
-
-function renderMonteCarloChart(pred) {
-    const mc = pred.montecarlo_h2h;
-    const ctx = document.getElementById("mcChart");
-
-    new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: ["Paris", "Monaco"],
-            datasets: [{
-                label: "Probabilités (%)",
-                data: [mc.paris, mc.monaco],
-                backgroundColor: ["#00c3ff", "#ff004c"]
-            }]
-        }
-    });
 }
 
 
@@ -161,24 +98,6 @@ function updateH2H(h2h) {
             Monaco : ${g.monaco_wins} victoires
         </div>
     `;
-}
-
-function renderH2HChart(h2h) {
-    const ctx = document.getElementById("h2hChart");
-
-    new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: ["Paris", "Monaco"],
-            datasets: [{
-                data: [
-                    h2h.global.paris_wins,
-                    h2h.global.monaco_wins
-                ],
-                backgroundColor: ["#00c3ff", "#ff004c"]
-            }]
-        }
-    });
 }
 
 
@@ -203,41 +122,6 @@ function updateStats(stats) {
     `;
 }
 
-function renderStatsChart(stats) {
-    const ctx = document.getElementById("statsChart");
-
-    new Chart(ctx, {
-        type: "radar",
-        data: {
-            labels: ["PPG", "Opp PPG", "Wins", "Losses"],
-            datasets: [
-                {
-                    label: "Paris",
-                    data: [
-                        stats.paris_last5.ppg,
-                        stats.paris_last5.opp_ppg,
-                        stats.paris_last5.wins,
-                        stats.paris_last5.losses
-                    ],
-                    borderColor: "#00c3ff",
-                    backgroundColor: "rgba(0,195,255,0.3)"
-                },
-                {
-                    label: "Monaco",
-                    data: [
-                        stats.monaco_last5.ppg,
-                        stats.monaco_last5.opp_ppg,
-                        stats.monaco_last5.wins,
-                        stats.monaco_last5.losses
-                    ],
-                    borderColor: "#ff004c",
-                    backgroundColor: "rgba(255,0,76,0.3)"
-                }
-            ]
-        }
-    });
-}
-
 
 // -----------------------------
 // INJURIES
@@ -256,4 +140,16 @@ function updateInjuries(inj) {
             Retours : ${inj.monaco.in.join(", ") || "Aucun"}
         </div>
     `;
+}
+
+
+// -----------------------------
+// ONGLET : AFFICHER UNE SECTION
+// -----------------------------
+function showSection(name) {
+    document.querySelectorAll(".section").forEach(sec => {
+        sec.classList.remove("active");
+    });
+
+    document.querySelector(`[data-section="${name}"]`).classList.add("active");
 }
