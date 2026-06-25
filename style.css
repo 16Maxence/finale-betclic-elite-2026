@@ -1,217 +1,194 @@
-/* ------------------------------
-   GLOBAL
------------------------------- */
+/* =============================== */
+/* GLOBAL */
+/* =============================== */
+
 body {
-    margin: 0;
-    padding: 0;
     background: #0d0d0d;
     color: white;
-    font-family: "Inter", sans-serif;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
     text-align: center;
-}
-
-h1 {
-    margin-top: 10px;
-    font-size: 32px;
-    color: white;
-}
-
-h2 {
-    margin-top: 40px;
-    font-size: 26px;
-    color: #00c3ff;
-}
-
-/* ------------------------------
-   HEADER LOGOS
------------------------------- */
-.header-logos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 25px;
     margin-top: 20px;
 }
 
-.team-logo {
-    width: 70px;
-    height: 70px;
-    object-fit: contain;
-}
-
-/* ------------------------------
-   NAVIGATION BUTTONS (ONGLETS)
------------------------------- */
-.nav-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-}
-
-.nav-buttons button {
-    background: #1a1a1a;
-    border: 1px solid #333;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: 0.25s;
-}
-
-.nav-buttons button:hover {
-    background: #00c3ff;
-    color: black;
-}
-
-/* ⭐ Bouton actif (effet néon) */
-.nav-buttons button.active {
-    background: linear-gradient(90deg, #00c3ff, #ff004c);
-    color: black;
-    border: none;
-    box-shadow: 0 0 12px #00c3ff, 0 0 12px #ff004c;
-    transform: scale(1.05);
-}
-
-/* ------------------------------
-   SECTIONS (ONGLETS)
------------------------------- */
 .section {
     display: none;
-    margin: 40px auto;
-    max-width: 900px;
     padding: 20px;
-    transition: opacity 0.3s ease;
 }
 
 .section.active {
     display: block;
-    opacity: 1;
 }
 
-/* ------------------------------
-   HEADER PROBABILITÉS
------------------------------- */
+/* =============================== */
+/* HEADER */
+/* =============================== */
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+}
+
+.team-logo {
+    width: 80px;
+    height: 80px;
+}
+
+/* =============================== */
+/* HEADER PROBABILITÉS */
+/* =============================== */
+
 .header-prob {
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.header-prob div {
-    background: #1a1a1a;
+.prob-box {
     padding: 15px 25px;
     border-radius: 10px;
-    font-size: 20px;
-    border: 1px solid #333;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
 }
 
-/* ------------------------------
-   QT CARDS
------------------------------- */
+.paris {
+    background: rgba(0, 195, 255, 0.2);
+    border: 2px solid #00c3ff;
+}
+
+.monaco {
+    background: rgba(255, 0, 76, 0.2);
+    border: 2px solid #ff004c;
+}
+
+/* =============================== */
+/* NAVIGATION */
+/* =============================== */
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.nav-buttons button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.nav-buttons button:hover {
+    background: #333;
+}
+
+.nav-buttons button.active {
+    background: linear-gradient(45deg, #00c3ff, #ff004c);
+    box-shadow: 0 0 12px #00c3ff, 0 0 12px #ff004c;
+}
+
+/* =============================== */
+/* QT CARDS */
+/* =============================== */
+
 .qt-card {
-    background: #1a1a1a;
+    background: rgba(255, 255, 255, 0.05);
     padding: 12px;
     margin: 10px auto;
+    width: 60%;
     border-radius: 8px;
-    border-left: 4px solid #00c3ff;
-    width: 90%;
-    max-width: 500px;
-    font-size: 15px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* ------------------------------
-   INFO BOXES
------------------------------- */
+/* =============================== */
+/* INFO BOXES */
+/* =============================== */
+
 .info-box {
-    background: #1a1a1a;
+    background: rgba(255, 255, 255, 0.05);
     padding: 15px;
     margin: 15px auto;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 450px;
-    border: 1px solid #333;
-    font-size: 15px;
+    width: 60%;
+    border-radius: 10px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* ------------------------------
-   CANVAS / GRAPHIQUES
------------------------------- */
+/* =============================== */
+/* CANVAS */
+/* =============================== */
+
 canvas {
-    margin: 20px auto !important;
-    display: block !important;
+    display: block;
+    margin: 30px auto;
+    max-width: 700px;
+    width: 90%;
 }
 
-/* ⭐ GRAPH PROBA PLUS GRAND + FOND DÉGRADÉ */
-#probChart {
-    max-width: 850px !important;
-    height: 450px !important;
-    background: linear-gradient(135deg, rgba(0,195,255,0.15), rgba(255,0,76,0.15));
-    border-radius: 12px;
+/* =============================== */
+/* TABLEAU H2H */
+/* =============================== */
+
+.h2h-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.h2h-table th {
+    background: rgba(255,255,255,0.15);
+    padding: 12px;
+    font-size: 16px;
+}
+
+.h2h-table td {
     padding: 10px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
-/* autres graphs */
-#mcChart,
-#h2hChart,
-#statsChart {
-    max-width: 500px !important;
+.h2h-table tr:nth-child(even) {
+    background: rgba(255,255,255,0.03);
 }
 
-/* ------------------------------
-   BANNIÈRE CHAMPION OR
------------------------------- */
-#champion-banner {
-    margin-top: 25px;
-    font-size: 38px;
-    font-weight: 900;
-    background: linear-gradient(90deg, #ffd700, #ffb300, #ffea00, #ffd700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow:
-        0 0 10px rgba(255,215,0,0.7),
-        0 0 20px rgba(255,215,0,0.5),
-        0 0 30px rgba(255,215,0,0.3);
-    animation: championGlow 2.5s infinite ease-in-out;
-}
+/* =============================== */
+/* RESPONSIVE */
+/* =============================== */
 
-@keyframes championGlow {
-    0% { text-shadow: 0 0 10px rgba(255,215,0,0.7); }
-    50% { text-shadow: 0 0 25px rgba(255,215,0,1); }
-    100% { text-shadow: 0 0 10px rgba(255,215,0,0.7); }
-}
+@media (max-width: 768px) {
 
-/* ------------------------------
-   RESPONSIVE
------------------------------- */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 26px;
+    .qt-card, .info-box {
+        width: 90%;
     }
 
-    h2 {
-        font-size: 22px;
+    .h2h-table {
+        width: 95%;
     }
 
-    .qt-card,
-    .info-box {
-        font-size: 14px;
+    .team-logo {
+        width: 60px;
+        height: 60px;
     }
 
-    #probChart {
-        max-width: 95% !important;
-        height: 350px !important;
-    }
-
-    canvas {
-        max-width: 90% !important;
-    }
-
-    .header-prob {
-        flex-direction: column;
-        gap: 15px;
+    .prob-box {
+        font-size: 18px;
     }
 }
