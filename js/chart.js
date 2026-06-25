@@ -2,7 +2,7 @@
 // CHART.JS — DASHBOARD PARIS vs MONACO
 // ======================================================
 
-// Création d’un dégradé dynamique (World Cup style)
+// Dégradé dynamique
 function createGradient(ctx, color1, color2) {
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, color1);
@@ -13,22 +13,26 @@ function createGradient(ctx, color1, color2) {
 // ======================================================
 // 1. Graphique : Évolution des probabilités QT
 // ======================================================
-export function renderProbChart(data) {
+function renderProbChart(pred) {
     const ctx = document.getElementById("probChart").getContext("2d");
 
     const labels = ["Avant match", "QT1", "QT2", "QT3", "QT4"];
+
     const paris = [
-        data.before_match.paris_win_prob,
-        data.after_q1.paris_win_prob,
-        data.after_q2.paris_win_prob,
-        data.after_q3.paris_win_prob,
-        data.after_q4.paris_win_prob
+        pred.before_match.paris_win_prob,
+        pred.after_q1.paris_win_prob,
+        pred.after_q2.paris_win_prob,
+        pred.after_q3.paris_win_prob,
+        pred.after_q4.paris_win_prob
     ];
 
-    const monaco = paris.map(v => 100 - v);
-
-    const gradientParis = createGradient(ctx, "#0055A4", "#E1000F");
-    const gradientMonaco = createGradient(ctx, "#C8102E", "#FFFFFF");
+    const monaco = [
+        pred.before_match.monaco_win_prob,
+        pred.after_q1.monaco_win_prob,
+        pred.after_q2.monaco_win_prob,
+        pred.after_q3.monaco_win_prob,
+        pred.after_q4.monaco_win_prob
+    ];
 
     new Chart(ctx, {
         type: "line",
@@ -38,8 +42,8 @@ export function renderProbChart(data) {
                 {
                     label: "Paris",
                     data: paris,
-                    borderColor: "#0055A4",
-                    backgroundColor: gradientParis,
+                    borderColor: "#00c3ff",
+                    backgroundColor: "rgba(0,195,255,0.25)",
                     borderWidth: 3,
                     tension: 0.3,
                     fill: true
@@ -47,8 +51,8 @@ export function renderProbChart(data) {
                 {
                     label: "Monaco",
                     data: monaco,
-                    borderColor: "#C8102E",
-                    backgroundColor: gradientMonaco,
+                    borderColor: "#ff004c",
+                    backgroundColor: "rgba(255,0,76,0.25)",
                     borderWidth: 3,
                     tension: 0.3,
                     fill: true
@@ -58,22 +62,17 @@ export function renderProbChart(data) {
         options: {
             responsive: true,
             plugins: {
-                legend: {
-                    labels: {
-                        color: "#e8eef6",
-                        font: { size: 14 }
-                    }
-                }
+                legend: { labels: { color: "white" } }
             },
             scales: {
                 y: {
                     min: 0,
                     max: 100,
-                    ticks: { color: "#7a90a8" },
+                    ticks: { color: "white" },
                     grid: { color: "rgba(255,255,255,0.05)" }
                 },
                 x: {
-                    ticks: { color: "#7a90a8" },
+                    ticks: { color: "white" },
                     grid: { color: "rgba(255,255,255,0.05)" }
                 }
             }
@@ -82,39 +81,35 @@ export function renderProbChart(data) {
 }
 
 // ======================================================
-// 2. Graphique : Distribution Monte‑Carlo
+// 2. Graphique : Monte‑Carlo H2H
 // ======================================================
-export function renderMonteCarloChart(mcValue) {
+function renderMonteCarloChart(pred) {
     const ctx = document.getElementById("mcChart").getContext("2d");
+    const mc = pred.montecarlo_h2h;
 
     new Chart(ctx, {
         type: "doughnut",
         data: {
             labels: ["Paris", "Monaco"],
             datasets: [{
-                data: [mcValue, 100 - mcValue],
-                backgroundColor: ["#0055A4", "#C8102E"],
+                data: [mc.paris, mc.monaco],
+                backgroundColor: ["#00c3ff", "#ff004c"],
                 borderWidth: 0
             }]
         },
         options: {
             cutout: "65%",
             plugins: {
-                legend: {
-                    labels: {
-                        color: "#e8eef6",
-                        font: { size: 14 }
-                    }
-                }
+                legend: { labels: { color: "white" } }
             }
         }
     });
 }
 
 // ======================================================
-// 3. Graphique : H2H (barres comparatives)
+// 3. Graphique : H2H global
 // ======================================================
-export function renderH2HChart(h2h) {
+function renderH2HChart(h2h) {
     const ctx = document.getElementById("h2hChart").getContext("2d");
 
     new Chart(ctx, {
@@ -123,22 +118,20 @@ export function renderH2HChart(h2h) {
             labels: ["Paris", "Monaco"],
             datasets: [{
                 label: "Victoires",
-                data: [h2h.paris_wins, h2h.monaco_wins],
-                backgroundColor: ["#0055A4", "#C8102E"],
+                data: [h2h.global.paris_wins, h2h.global.monaco_wins],
+                backgroundColor: ["#00c3ff", "#ff004c"],
                 borderRadius: 8
             }]
         },
         options: {
-            plugins: {
-                legend: { display: false }
-            },
+            plugins: { legend: { display: false } },
             scales: {
                 y: {
-                    ticks: { color: "#7a90a8" },
+                    ticks: { color: "white" },
                     grid: { color: "rgba(255,255,255,0.05)" }
                 },
                 x: {
-                    ticks: { color: "#7a90a8" },
+                    ticks: { color: "white" },
                     grid: { display: false }
                 }
             }
@@ -147,38 +140,38 @@ export function renderH2HChart(h2h) {
 }
 
 // ======================================================
-// 4. Graphique : Stats avancées (ratings)
+// 4. Graphique : Stats (radar)
 // ======================================================
-export function renderStatsChart(stats) {
+function renderStatsChart(stats) {
     const ctx = document.getElementById("statsChart").getContext("2d");
 
     new Chart(ctx, {
         type: "radar",
         data: {
-            labels: ["Rating global", "Forme", "PPG", "OPPG"],
+            labels: ["PPG", "Opp PPG", "Wins", "Losses"],
             datasets: [
                 {
                     label: "Paris",
                     data: [
-                        stats.paris_rating,
-                        stats.paris_rating * 0.8,
-                        stats.paris_rating * 0.6,
-                        stats.paris_rating * 0.4
+                        stats.paris_last5.ppg,
+                        stats.paris_last5.opp_ppg,
+                        stats.paris_last5.wins,
+                        stats.paris_last5.losses
                     ],
-                    borderColor: "#0055A4",
-                    backgroundColor: "rgba(0,85,164,0.3)",
+                    borderColor: "#00c3ff",
+                    backgroundColor: "rgba(0,195,255,0.3)",
                     borderWidth: 2
                 },
                 {
                     label: "Monaco",
                     data: [
-                        stats.monaco_rating,
-                        stats.monaco_rating * 0.8,
-                        stats.monaco_rating * 0.6,
-                        stats.monaco_rating * 0.4
+                        stats.monaco_last5.ppg,
+                        stats.monaco_last5.opp_ppg,
+                        stats.monaco_last5.wins,
+                        stats.monaco_last5.losses
                     ],
-                    borderColor: "#C8102E",
-                    backgroundColor: "rgba(200,16,46,0.3)",
+                    borderColor: "#ff004c",
+                    backgroundColor: "rgba(255,0,76,0.3)",
                     borderWidth: 2
                 }
             ]
@@ -188,17 +181,12 @@ export function renderStatsChart(stats) {
                 r: {
                     angleLines: { color: "rgba(255,255,255,0.1)" },
                     grid: { color: "rgba(255,255,255,0.1)" },
-                    pointLabels: { color: "#e8eef6" },
+                    pointLabels: { color: "white" },
                     ticks: { display: false }
                 }
             },
             plugins: {
-                legend: {
-                    labels: {
-                        color: "#e8eef6",
-                        font: { size: 14 }
-                    }
-                }
+                legend: { labels: { color: "white" } }
             }
         }
     });
