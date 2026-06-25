@@ -1,135 +1,189 @@
-import { 
-    renderProbChart, 
-    renderMonteCarloChart, 
-    renderH2HChart, 
-    renderStatsChart 
-} from "./chart.js";
-
-// Chargement du JSON principal
-async function loadPredictions() {
-    const response = await fetch("../data/predictions.json");
+// Chargement des données JSON
+async function loadJSON(path) {
+    const response = await fetch(path);
     return await response.json();
 }
 
-// Fonction utilitaire pour insérer du HTML
-function setHTML(id, html) {
-    document.getElementById(id).innerHTML = html;
+async function init() {
+    const predictions = await loadJSON("data/predictions.json");
+    const h2h = await loadJSON("data/h2h.json");
+    const stats = await loadJSON("data/stats.json");
+    const injuries = await loadJSON("data/injuries.json");
+
+    updateHeader(predictions);
+    updateQT(predictions);
+    renderProbChart(predictions);
+    renderMonteCarlo(predictions);
+    renderH2H(h2h);
+    renderStats(stats);
 }
 
-// Applique une classe selon l'équipe
-function teamClass(prob) {
-    return prob >= 50 ? "paris" : "monaco";
+init();
+
+
+// -----------------------------
+// HEADER
+// -----------------------------
+function updateHeader(pred) {
+    document.getElementById("header-paris-prob").textContent =
+        pred.current.paris + "%";
+
+    document.getElementById("header-monaco-prob").textContent =
+        pred.current.monaco + "%";
 }
 
-// Applique une classe de couleur pour les pourcentages
-function probClass(prob) {
-    return prob >= 50 ? "prob-paris" : "prob-monaco";
+
+// -----------------------------
+// QT DETAILS
+// -----------------------------
+function updateQT(pred) {
+    const qt = pred.qt;
+
+    document.getElementById("before_match").innerHTML =
+        `<div class="qt-card"><b>Avant match :</b> Paris ${qt.before.paris}% — Monaco ${qt.before.monaco}%</div>`;
+
+    document.getElementById("after_q1").innerHTML =
+        `<div class="qt-card"><b>Après Q1 :</b> Paris ${qt.q1.paris}% — Monaco ${qt.q1.monaco}%</div>`;
+
+    document.getElementById("after_q2").innerHTML =
+        `<div class="qt-card"><b>Mi-temps :</b> Paris ${qt.q2.paris}% — Monaco ${qt.q2.monaco}%</div>`;
+
+    document.getElementById("after_q3").innerHTML =
+        `<div class="qt-card"><b>Après Q3 :</b> Paris ${qt.q3.paris}% — Monaco ${qt.q3.monaco}%</div>`;
+
+    document.getElementById("after_q4").innerHTML =
+        `<div class="qt-card"><b>Fin match :</b> Paris ${qt.q4.paris}% — Monaco ${qt.q4.monaco}%</div>`;
 }
 
-// Applique une classe champion
-function championClass(team) {
-    return team === "Paris" ? "champion-paris" : "champion-monaco";
+
+// -----------------------------
+// GRAPHIQUE — Évolution QT
+// -----------------------------
+function renderProbChart(pred) {
+    const ctx = document.getElementById("probChart");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["Avant", "Q1", "Q2", "Q3", "Q4"],
+            datasets: [
+                {
+                    label: "Paris",
+                    data: [
+                        pred.qt.before.paris,
+                        pred.qt.q1.paris,
+                        pred.qt.q2.paris,
+                        pred.qt.q3.paris,
+                        pred.qt.q4.paris
+                    ],
+                    borderColor: "#00c3ff",
+                    tension: 0.3
+                },
+                {
+                    label: "Monaco",
+                    data: [
+                        pred.qt.before.monaco,
+                        pred.qt.q1.monaco,
+                        pred.qt.q2.monaco,
+                        pred.qt.q3.monaco,
+                        pred.qt.q4.monaco
+                    ],
+                    borderColor: "#ff004c",
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: "white" } } },
+            scales: {
+                x: { ticks: { color: "white" } },
+                y: { ticks: { color: "white" } }
+            }
+        }
+    });
 }
 
-// Affichage des cartes QT
-function renderQTCard(id, data) {
-    const probParis = data.paris_win_prob;
-    const probMonaco = data.monaco_win_prob;
 
-    const html = `
-        <div class="qt-card ${teamClass(probParis)}">
-            <h3>${id.replace("_", " ").toUpperCase()}</h3>
-            ${data.score ? `<p><strong>Score :</strong> ${data.score}</p>` : ""}
-            <p class="${probClass(probParis)}">Paris : ${probParis}%</p>
-            <p class="${probClass(probMonaco)}">Monaco : ${probMonaco}%</p>
-        </div>
-    `;
+// -----------------------------
+// MONTE CARLO
+// -----------------------------
+function renderMonteCarlo(pred) {
+    const ctx = document.getElementById("mcChart");
 
-    setHTML(id, html);
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Paris", "Monaco"],
+            datasets: [{
+                label: "Probabilités (%)",
+                data: [pred.montecarlo.paris, pred.montecarlo.monaco],
+                backgroundColor: ["#00c3ff", "#ff004c"]
+            }]
+        },
+        options: {
+            plugins: { legend: { labels: { color: "white" } } },
+            scales: {
+                x: { ticks: { color: "white" } },
+                y: { ticks: { color: "white" } }
+            }
+        }
+    });
 }
 
-// Affichage Monte‑Carlo
-function renderMonteCarlo(mc, champion) {
-    const html = `
-        <div class="champion-card ${championClass(champion)}">
-            <div class="champion-trophies">🏆</div>
-            <div>
-                <div class="champion-name">${champion}</div>
-                <div class="champion-meta">Probabilité finale : ${mc}%</div>
-            </div>
-        </div>
-    `;
-    setHTML("montecarlo", html);
+
+// -----------------------------
+// H2H
+// -----------------------------
+function renderH2H(h2h) {
+    const ctx = document.getElementById("h2hChart");
+
+    new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: ["Paris", "Monaco"],
+            datasets: [{
+                data: [h2h.paris_wins, h2h.monaco_wins],
+                backgroundColor: ["#00c3ff", "#ff004c"]
+            }]
+        }
+    });
 }
 
-// Affichage H2H
-function renderH2H(global, last5) {
-    setHTML("h2h-global", `
-        <div class="info-box">
-            <strong>Global :</strong><br>
-            Paris : ${global.paris_wins}<br>
-            Monaco : ${global.monaco_wins}<br>
-            Moyenne Paris : ${global.avg_paris}<br>
-            Moyenne Monaco : ${global.avg_monaco}
-        </div>
-    `);
 
-    setHTML("h2h-last5", `
-        <div class="info-box">
-            <strong>5 derniers matchs :</strong><br>
-            Paris : ${last5.paris_wins}<br>
-            Monaco : ${last5.monaco_wins}<br>
-            Moyenne Paris : ${last5.avg_paris}<br>
-            Moyenne Monaco : ${last5.avg_monaco}
-        </div>
-    `);
-}
-
-// Affichage Stats
+// -----------------------------
+// STATS
+// -----------------------------
 function renderStats(stats) {
-    setHTML("stats-compare", `
-        <div class="info-box">
-            Rating Paris : ${stats.paris_rating}<br>
-            Rating Monaco : ${stats.monaco_rating}<br>
-            Avantage : <strong>${stats.advantage}</strong>
-        </div>
-    `);
+    const ctx = document.getElementById("statsChart");
+
+    new Chart(ctx, {
+        type: "radar",
+        data: {
+            labels: ["Points", "Rebonds", "Passes", "Interceptions", "Évaluation"],
+            datasets: [
+                {
+                    label: "Paris",
+                    data: stats.paris,
+                    borderColor: "#00c3ff",
+                    backgroundColor: "rgba(0,195,255,0.3)"
+                },
+                {
+                    label: "Monaco",
+                    data: stats.monaco,
+                    borderColor: "#ff004c",
+                    backgroundColor: "rgba(255,0,76,0.3)"
+                }
+            ]
+        },
+        options: {
+            scales: {
+                r: {
+                    angleLines: { color: "white" },
+                    grid: { color: "white" },
+                    pointLabels: { color: "white" }
+                }
+            }
+        }
+    });
 }
-
-// Mise à jour du header
-function updateHeader(beforeMatch) {
-    document.getElementById("header-paris-prob").textContent = beforeMatch.paris_win_prob + "%";
-    document.getElementById("header-monaco-prob").textContent = beforeMatch.monaco_win_prob + "%";
-}
-
-// Initialisation du dashboard
-async function initDashboard() {
-    const data = await loadPredictions();
-
-    // Header
-    updateHeader(data.before_match);
-
-    // QT
-    renderQTCard("before_match", data.before_match);
-    renderQTCard("after_q1", data.after_q1);
-    renderQTCard("after_q2", data.after_q2);
-    renderQTCard("after_q3", data.after_q3);
-    renderQTCard("after_q4", data.after_q4);
-
-    // Monte‑Carlo
-    renderMonteCarlo(data.after_q4.monte_carlo, data.after_q4.champion);
-
-    // H2H
-    renderH2H(data.h2h.global, data.h2h.last5);
-
-    // Stats
-    renderStats(data.stats);
-
-    // Graphiques Chart.js
-    renderProbChart(data);
-    renderMonteCarloChart(data.after_q4.monte_carlo);
-    renderH2HChart(data.h2h.global);
-    renderStatsChart(data.stats);
-}
-
-initDashboard();
