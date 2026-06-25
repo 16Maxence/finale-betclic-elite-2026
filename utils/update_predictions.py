@@ -1,46 +1,45 @@
-"""
-update_predictions.py
-Script simplifié qui met à jour uniquement le Monte-Carlo H2H
-dans predictions.json.
-
-Ce script :
-- charge h2h.json
-- calcule le Monte-Carlo H2H (10 000 simulations)
-- met à jour predictions.json en ajoutant le bloc "montecarlo_h2h"
-"""
-
 import json
-from utils.monte_carlo_h2h import monte_carlo_h2h
+from monte_carlo_h2h import monte_carlo_h2h
 
-
-def load_json(path):
-    with open(path, "r") as f:
+# ======================================================
+# Chargement des données existantes
+# ======================================================
+def load_predictions():
+    with open("data/predictions.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
+# ======================================================
+# Sauvegarde des données mises à jour
+# ======================================================
+def save_predictions(data):
+    with open("data/predictions.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
 
-def save_json(path, data):
-    with open(path, "w") as f:
-        json.dump(data, f, indent=4)
+# ======================================================
+# Mise à jour Monte-Carlo + autres champs si besoin
+# ======================================================
+def update_all_predictions():
+    pred = load_predictions()
 
-
-def main():
-    # Charger les données H2H
-    h2h = load_json("data/h2h.json")
-
-    # Charger predictions.json existant
-    predictions = load_json("data/predictions.json")
+    # Récupération des ratings (ici : probas avant match)
+    paris_rating = pred["before_match"]["paris_win_prob"]
+    monaco_rating = pred["before_match"]["monaco_win_prob"]
 
     # Calcul Monte-Carlo H2H
-    mc = monte_carlo_h2h(h2h)
+    pred["montecarlo_h2h"] = monte_carlo_h2h(
+        paris_rating=paris_rating,
+        monaco_rating=monaco_rating,
+        simulations=10000
+    )
 
-    # Mise à jour du fichier
-    predictions["montecarlo_h2h"] = mc
+    print("Monte-Carlo mis à jour :", pred["montecarlo_h2h"])
 
     # Sauvegarde
-    save_json("data/predictions.json", predictions)
+    save_predictions(pred)
+    print("predictions.json mis à jour avec succès !")
 
-    print("Monte-Carlo H2H mis à jour dans predictions.json.")
-
-
+# ======================================================
+# Exécution directe
+# ======================================================
 if __name__ == "__main__":
-    main()
+    update_all_predictions()
