@@ -26,14 +26,14 @@
     </div>
 
     <!-- ============================
-         BOUTONS DE NAVIGATION
+         BOUTONS DE NAVIGATION (ONGLETS)
     ============================= -->
     <div class="nav-buttons">
-        <button onclick="scrollToSection('prob-section')">Probabilités</button>
-        <button onclick="scrollToSection('mc-section')">Monte-Carlo</button>
-        <button onclick="scrollToSection('h2h-section')">H2H</button>
-        <button onclick="scrollToSection('stats-section')">Stats</button>
-        <button onclick="scrollToSection('injuries-section')">Blessures</button>
+        <button onclick="showSection('prob')">Probabilités</button>
+        <button onclick="showSection('mc')">Monte-Carlo</button>
+        <button onclick="showSection('h2h')">H2H</button>
+        <button onclick="showSection('stats')">Stats</button>
+        <button onclick="showSection('injuries')">Blessures</button>
     </div>
 
     <!-- ============================
@@ -52,9 +52,9 @@
 
 
     <!-- ============================
-         PROBABILITÉS QT
+         SECTION : PROBABILITÉS QT
     ============================= -->
-    <div id="prob-section" class="section">
+    <div id="prob-section" class="section" data-section="prob">
         <h2>Évolution des probabilités</h2>
 
         <div id="before_match"></div>
@@ -68,9 +68,9 @@
 
 
     <!-- ============================
-         MONTE-CARLO H2H
+         SECTION : MONTE-CARLO H2H
     ============================= -->
-    <div id="mc-section" class="section">
+    <div id="mc-section" class="section" data-section="mc">
         <h2>Monte-Carlo H2H</h2>
 
         <div id="mc-result"></div>
@@ -79,9 +79,9 @@
 
 
     <!-- ============================
-         H2H GLOBAL
+         SECTION : H2H GLOBAL
     ============================= -->
-    <div id="h2h-section" class="section">
+    <div id="h2h-section" class="section" data-section="h2h">
         <h2>Face-à-face (H2H)</h2>
 
         <div id="h2h-global"></div>
@@ -90,9 +90,9 @@
 
 
     <!-- ============================
-         STATS DES 5 DERNIERS MATCHS
+         SECTION : STATS
     ============================= -->
-    <div id="stats-section" class="section">
+    <div id="stats-section" class="section" data-section="stats">
         <h2>Stats — 5 derniers matchs</h2>
 
         <div id="stats-compare"></div>
@@ -101,9 +101,9 @@
 
 
     <!-- ============================
-         BLESSURES
+         SECTION : BLESSURES
     ============================= -->
-    <div id="injuries-section" class="section">
+    <div id="injuries-section" class="section" data-section="injuries">
         <h2>Blessures</h2>
 
         <div id="injuries"></div>
@@ -111,12 +111,19 @@
 
 
     <!-- ============================
-         SCRIPT SCROLL
+         SCRIPT : GESTION DES ONGLETS
     ============================= -->
     <script>
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+        function showSection(name) {
+            document.querySelectorAll(".section").forEach(sec => {
+                sec.classList.remove("active");
+            });
+
+            document.querySelector(`[data-section="${name}"]`).classList.add("active");
         }
+
+        // Section affichée par défaut
+        showSection("prob");
     </script>
 
 </body>
