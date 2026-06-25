@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Paris vs Monaco</title>
+    <title>Paris vs Monaco — Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
 
@@ -16,7 +16,25 @@
 
 <body>
 
-    <h1>Paris vs Monaco — Dashboard</h1>
+    <!-- ============================
+         HEADER AVEC LOGOS
+    ============================= -->
+    <div class="header-logos">
+        <img src="img/paris.png" class="team-logo">
+        <h1>Paris vs Monaco — Dashboard</h1>
+        <img src="img/monaco.png" class="team-logo">
+    </div>
+
+    <!-- ============================
+         BOUTONS DE NAVIGATION
+    ============================= -->
+    <div class="nav-buttons">
+        <button onclick="scrollToSection('prob-section')">Probabilités</button>
+        <button onclick="scrollToSection('mc-section')">Monte-Carlo</button>
+        <button onclick="scrollToSection('h2h-section')">H2H</button>
+        <button onclick="scrollToSection('stats-section')">Stats</button>
+        <button onclick="scrollToSection('injuries-section')">Blessures</button>
+    </div>
 
     <!-- ============================
          HEADER PROBABILITÉS
@@ -36,50 +54,70 @@
     <!-- ============================
          PROBABILITÉS QT
     ============================= -->
-    <h2>Évolution des probabilités</h2>
+    <div id="prob-section" class="section">
+        <h2>Évolution des probabilités</h2>
 
-    <div id="before_match"></div>
-    <div id="after_q1"></div>
-    <div id="after_q2"></div>
-    <div id="after_q3"></div>
-    <div id="after_q4"></div>
+        <div id="before_match"></div>
+        <div id="after_q1"></div>
+        <div id="after_q2"></div>
+        <div id="after_q3"></div>
+        <div id="after_q4"></div>
 
-    <canvas id="probChart"></canvas>
+        <canvas id="probChart"></canvas>
+    </div>
 
 
     <!-- ============================
          MONTE-CARLO H2H
     ============================= -->
-    <h2>Monte-Carlo H2H</h2>
+    <div id="mc-section" class="section">
+        <h2>Monte-Carlo H2H</h2>
 
-    <div id="mc-result"></div>
-    <canvas id="mcChart"></canvas>
+        <div id="mc-result"></div>
+        <canvas id="mcChart"></canvas>
+    </div>
 
 
     <!-- ============================
          H2H GLOBAL
     ============================= -->
-    <h2>Face-à-face (H2H)</h2>
+    <div id="h2h-section" class="section">
+        <h2>Face-à-face (H2H)</h2>
 
-    <div id="h2h-global"></div>
-    <canvas id="h2hChart"></canvas>
+        <div id="h2h-global"></div>
+        <canvas id="h2hChart"></canvas>
+    </div>
 
 
     <!-- ============================
          STATS DES 5 DERNIERS MATCHS
     ============================= -->
-    <h2>Stats — 5 derniers matchs</h2>
+    <div id="stats-section" class="section">
+        <h2>Stats — 5 derniers matchs</h2>
 
-    <div id="stats-compare"></div>
-    <canvas id="statsChart"></canvas>
+        <div id="stats-compare"></div>
+        <canvas id="statsChart"></canvas>
+    </div>
 
 
     <!-- ============================
          BLESSURES
     ============================= -->
-    <h2>Blessures</h2>
+    <div id="injuries-section" class="section">
+        <h2>Blessures</h2>
 
-    <div id="injuries"></div>
+        <div id="injuries"></div>
+    </div>
+
+
+    <!-- ============================
+         SCRIPT SCROLL
+    ============================= -->
+    <script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+        }
+    </script>
 
 </body>
 </html>
