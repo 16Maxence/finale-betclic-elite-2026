@@ -64,6 +64,9 @@
         <div id="after_q4"></div>
 
         <canvas id="probChart"></canvas>
+
+        <!-- ⭐ BANNIÈRE CHAMPION ⭐ -->
+        <div id="champion-banner">CHAMPION 2026 : MONACO ! 🏆</div>
     </div>
 
 
@@ -115,11 +118,22 @@
     ============================= -->
     <script>
         function showSection(name) {
+
+            // cacher toutes les sections
             document.querySelectorAll(".section").forEach(sec => {
                 sec.classList.remove("active");
             });
 
+            // afficher la bonne section
             document.querySelector(`[data-section="${name}"]`).classList.add("active");
+
+            // bouton actif
+            document.querySelectorAll(".nav-buttons button").forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            document.querySelector(`.nav-buttons button[onclick="showSection('${name}')"]`)
+                .classList.add("active");
         }
 
         // Section affichée par défaut
