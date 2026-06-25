@@ -1,125 +1,106 @@
-/* RESET */
+/* ------------------------------
+   GLOBAL
+------------------------------ */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0d1117;
+    padding: 0;
+    background: #0d0d0d;
     color: white;
-}
-
-/* HEADER PREMIUM */
-.hero-header {
-    position: relative;
-    padding: 60px 20px;
-    text-align: center;
-    background: linear-gradient(135deg, #0a0f1f, #1b2a4a, #0a0f1f);
-    background-size: 200% 200%;
-    animation: gradientMove 8s ease infinite;
-    border-bottom: 2px solid rgba(255,255,255,0.1);
-}
-
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 70%);
-    pointer-events: none;
-}
-
-.team-logos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 25px;
-    margin-bottom: 20px;
-}
-
-.team-logo {
-    width: 80px;
-    height: 80px;
-    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
-}
-
-.vs {
-    font-size: 32px;
-    font-weight: 700;
-    color: #e8eef6;
-    text-shadow: 0 0 10px rgba(255,255,255,0.4);
-}
-
-.hero-content h1 {
-    font-size: 42px;
-    margin: 10px 0;
-    color: white;
-    text-shadow: 0 0 12px rgba(255,255,255,0.3);
-}
-
-.subtitle {
-    font-size: 16px;
-    color: #b8c4d6;
-    margin-bottom: 25px;
-    animation: fadeIn 1.5s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* HEADER STATS */
-.header-stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-}
-
-.hstat {
+    font-family: "Inter", sans-serif;
     text-align: center;
 }
 
-.hstat-val {
-    font-size: 32px;
-    font-weight: bold;
+h2 {
+    margin-top: 40px;
+    font-size: 26px;
+    color: #00c3ff;
 }
 
-.hstat-label {
-    font-size: 14px;
-    opacity: 0.8;
-}
-
-/* TABS */
-.tabs {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    background: #111827;
-    padding: 15px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.tabs button {
-    background: #1f2937;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.tabs button:hover {
-    background: #374151;
-}
-
-/* SECTIONS */
-.tab-section {
+/* ------------------------------
+   CONTAINERS
+------------------------------ */
+.section {
+    margin: 40px auto;
+    max-width: 900px;
     padding: 20px;
 }
 
-.hidden {
-    display: none;
+/* ------------------------------
+   QT CARDS
+------------------------------ */
+.qt-card {
+    background: #1a1a1a;
+    padding: 12px;
+    margin: 10px auto;
+    border-radius: 8px;
+    border-left: 4px solid #00c3ff;
+    width: 90%;
+    max-width: 500px;
+    font-size: 15px;
+}
+
+/* ------------------------------
+   INFO BOXES
+------------------------------ */
+.info-box {
+    background: #1a1a1a;
+    padding: 15px;
+    margin: 15px auto;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    border: 1px solid #333;
+    font-size: 15px;
+}
+
+/* ------------------------------
+   CANVAS / GRAPHIQUES
+------------------------------ */
+canvas {
+    max-width: 550px !important;
+    margin: 20px auto !important;
+    display: block !important;
+}
+
+#probChart,
+#mcChart,
+#h2hChart,
+#statsChart {
+    max-width: 500px !important;
+}
+
+/* ------------------------------
+   HEADER PROBABILITÉS
+------------------------------ */
+.header-prob {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.header-prob div {
+    background: #1a1a1a;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 20px;
+    border: 1px solid #333;
+}
+
+/* ------------------------------
+   RESPONSIVE
+------------------------------ */
+@media (max-width: 600px) {
+    h2 {
+        font-size: 22px;
+    }
+
+    .qt-card,
+    .info-box {
+        font-size: 14px;
+    }
+
+    canvas {
+        max-width: 90% !important;
+    }
 }
