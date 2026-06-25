@@ -115,19 +115,22 @@ function renderProbChart(pred) {
 
 
 // -----------------------------
-// MONTE CARLO
+// MONTE CARLO H2H (NOUVEAU)
 // -----------------------------
 function updateMonteCarlo(pred) {
+    const mc = pred.montecarlo_h2h;
+
     document.getElementById("mc-result").innerHTML = `
         <div class="info-box">
-            <b>Résultat Monte-Carlo :</b><br>
-            Paris : ${pred.after_q4.paris_win_prob}%<br>
-            Monaco : ${pred.after_q4.monaco_win_prob}%
+            <b>Monte-Carlo H2H (10 000 simulations)</b><br>
+            Paris : ${mc.paris}%<br>
+            Monaco : ${mc.monaco}%
         </div>
     `;
 }
 
 function renderMonteCarloChart(pred) {
+    const mc = pred.montecarlo_h2h;
     const ctx = document.getElementById("mcChart");
 
     new Chart(ctx, {
@@ -136,10 +139,7 @@ function renderMonteCarloChart(pred) {
             labels: ["Paris", "Monaco"],
             datasets: [{
                 label: "Probabilités (%)",
-                data: [
-                    pred.after_q4.paris_win_prob,
-                    pred.after_q4.monaco_win_prob
-                ],
+                data: [mc.paris, mc.monaco],
                 backgroundColor: ["#00c3ff", "#ff004c"]
             }]
         }
