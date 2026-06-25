@@ -10,6 +10,12 @@ body {
     text-align: center;
 }
 
+h1 {
+    margin-top: 10px;
+    font-size: 32px;
+    color: white;
+}
+
 h2 {
     margin-top: 40px;
     font-size: 26px;
@@ -17,12 +23,74 @@ h2 {
 }
 
 /* ------------------------------
-   CONTAINERS
+   HEADER LOGOS
+------------------------------ */
+.header-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.team-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+/* ------------------------------
+   NAVIGATION BUTTONS
+------------------------------ */
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.nav-buttons button {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.nav-buttons button:hover {
+    background: #00c3ff;
+    color: black;
+}
+
+/* ------------------------------
+   SECTIONS
 ------------------------------ */
 .section {
     margin: 40px auto;
     max-width: 900px;
     padding: 20px;
+}
+
+/* ------------------------------
+   HEADER PROBABILITÉS
+------------------------------ */
+.header-prob {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.header-prob div {
+    background: #1a1a1a;
+    padding: 15px 25px;
+    border-radius: 10px;
+    font-size: 20px;
+    border: 1px solid #333;
 }
 
 /* ------------------------------
@@ -70,27 +138,13 @@ canvas {
 }
 
 /* ------------------------------
-   HEADER PROBABILITÉS
------------------------------- */
-.header-prob {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-top: 20px;
-}
-
-.header-prob div {
-    background: #1a1a1a;
-    padding: 15px 25px;
-    border-radius: 10px;
-    font-size: 20px;
-    border: 1px solid #333;
-}
-
-/* ------------------------------
    RESPONSIVE
 ------------------------------ */
 @media (max-width: 600px) {
+    h1 {
+        font-size: 26px;
+    }
+
     h2 {
         font-size: 22px;
     }
@@ -102,5 +156,10 @@ canvas {
 
     canvas {
         max-width: 90% !important;
+    }
+
+    .header-prob {
+        flex-direction: column;
+        gap: 15px;
     }
 }
