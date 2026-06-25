@@ -3,59 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Paris vs Monaco — Dashboard</title>
-
     <link rel="stylesheet" href="style.css">
-
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- JS -->
-    <script defer src="js/chart.js"></script>
-    <script defer src="js/app.js"></script>
 </head>
 
 <body>
 
-    <!-- ============================
-         HEADER AVEC LOGOS
-    ============================= -->
-    <div class="header-logos">
+    <!-- HEADER -->
+    <header>
         <img src="img/paris.png" class="team-logo">
         <h1>Paris vs Monaco — Dashboard</h1>
         <img src="img/monaco.png" class="team-logo">
+    </header>
+
+    <!-- PROBABILITÉS HEADER -->
+    <div class="header-prob">
+        <div class="prob-box paris">Paris <span id="header-paris-prob"></span></div>
+        <div class="prob-box monaco">Monaco <span id="header-monaco-prob"></span></div>
     </div>
 
-    <!-- ============================
-         BOUTONS DE NAVIGATION (ONGLETS)
-    ============================= -->
+    <!-- NAVIGATION -->
     <div class="nav-buttons">
         <button onclick="showSection('prob')">Probabilités</button>
         <button onclick="showSection('mc')">Monte-Carlo</button>
         <button onclick="showSection('h2h')">H2H</button>
         <button onclick="showSection('stats')">Stats</button>
-        <button onclick="showSection('injuries')">Blessures</button>
+        <button onclick="showSection('inj')">Blessures</button>
     </div>
 
-    <!-- ============================
-         HEADER PROBABILITÉS
-    ============================= -->
-    <div class="header-prob">
-        <div>
-            <b>Paris</b><br>
-            <span id="header-paris-prob">--%</span>
-        </div>
-        <div>
-            <b>Monaco</b><br>
-            <span id="header-monaco-prob">--%</span>
-        </div>
-    </div>
+    <!-- ============================= -->
+    <!-- SECTION : PROBABILITÉS -->
+    <!-- ============================= -->
+    <section class="section" data-section="prob">
 
-
-    <!-- ============================
-         SECTION : PROBABILITÉS QT
-    ============================= -->
-    <div id="prob-section" class="section" data-section="prob">
-        <h2>Évolution des probabilités</h2>
+        <h2>Probabilités par quart-temps</h2>
 
         <div id="before_match"></div>
         <div id="after_q1"></div>
@@ -64,81 +45,83 @@
         <div id="after_q4"></div>
 
         <canvas id="probChart"></canvas>
+    </section>
 
-        <!-- ⭐ BANNIÈRE CHAMPION ⭐ -->
-        <div id="champion-banner">CHAMPION 2026 : MONACO ! 🏆</div>
-    </div>
+    <!-- ============================= -->
+    <!-- SECTION : MONTE-CARLO -->
+    <!-- ============================= -->
+    <section class="section" data-section="mc">
 
-
-    <!-- ============================
-         SECTION : MONTE-CARLO H2H
-    ============================= -->
-    <div id="mc-section" class="section" data-section="mc">
-        <h2>Monte-Carlo H2H</h2>
+        <h2>Monte-Carlo</h2>
 
         <div id="mc-result"></div>
+
+        <h3>Répartition des victoires</h3>
         <canvas id="mcChart"></canvas>
-    </div>
 
+        <h3>Histogramme</h3>
+        <canvas id="mcDistChart"></canvas>
 
-    <!-- ============================
-         SECTION : H2H GLOBAL
-    ============================= -->
-    <div id="h2h-section" class="section" data-section="h2h">
+    </section>
+
+    <!-- ============================= -->
+    <!-- SECTION : H2H -->
+    <!-- ============================= -->
+    <section class="section" data-section="h2h">
+
         <h2>Face-à-face (H2H)</h2>
 
+        <!-- Résumé global -->
         <div id="h2h-global"></div>
-        <canvas id="h2hChart"></canvas>
-    </div>
 
+        <!-- Tableau des derniers matchs -->
+        <h3>Derniers matchs</h3>
+        <div id="h2h-table"></div>
 
-    <!-- ============================
-         SECTION : STATS
-    ============================= -->
-    <div id="stats-section" class="section" data-section="stats">
-        <h2>Stats — 5 derniers matchs</h2>
+        <!-- Graphique 1 : Historique des scores -->
+        <h3>Historique des scores</h3>
+        <canvas id="h2hHistoryChart"></canvas>
+
+        <!-- Graphique 2 : Stats moyennes -->
+        <h3>Stats moyennes</h3>
+        <canvas id="h2hAvgChart"></canvas>
+
+        <!-- Graphique 3 : Radar comparatif -->
+        <h3>Profil comparatif</h3>
+        <canvas id="statsChart"></canvas>
+
+        <!-- Graphique 4 : Cumul des victoires -->
+        <h3>Cumul des victoires</h3>
+        <canvas id="h2hCumulativeChart"></canvas>
+
+    </section>
+
+    <!-- ============================= -->
+    <!-- SECTION : STATS -->
+    <!-- ============================= -->
+    <section class="section" data-section="stats">
+
+        <h2>Stats récentes</h2>
 
         <div id="stats-compare"></div>
+
         <canvas id="statsChart"></canvas>
-    </div>
 
+    </section>
 
-    <!-- ============================
-         SECTION : BLESSURES
-    ============================= -->
-    <div id="injuries-section" class="section" data-section="injuries">
+    <!-- ============================= -->
+    <!-- SECTION : BLESSURES -->
+    <!-- ============================= -->
+    <section class="section" data-section="inj">
+
         <h2>Blessures</h2>
 
         <div id="injuries"></div>
-    </div>
 
+    </section>
 
-    <!-- ============================
-         SCRIPT : GESTION DES ONGLETS
-    ============================= -->
-    <script>
-        function showSection(name) {
-
-            // cacher toutes les sections
-            document.querySelectorAll(".section").forEach(sec => {
-                sec.classList.remove("active");
-            });
-
-            // afficher la bonne section
-            document.querySelector(`[data-section="${name}"]`).classList.add("active");
-
-            // bouton actif
-            document.querySelectorAll(".nav-buttons button").forEach(btn => {
-                btn.classList.remove("active");
-            });
-
-            document.querySelector(`.nav-buttons button[onclick="showSection('${name}')"]`)
-                .classList.add("active");
-        }
-
-        // Section affichée par défaut
-        showSection("prob");
-    </script>
+    <script src="js/chart.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
 </html>
