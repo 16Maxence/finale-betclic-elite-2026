@@ -85,7 +85,7 @@ function renderProbChart(pred) {
 }
 
 // ======================================================
-// 2. Graphique : Monte‑Carlo H2H
+// 2. Graphique : Donut Monte‑Carlo H2H
 // ======================================================
 function renderMonteCarloChart(pred) {
     const ctx = document.getElementById("mcChart").getContext("2d");
@@ -111,7 +111,43 @@ function renderMonteCarloChart(pred) {
 }
 
 // ======================================================
-// 3. Graphique : H2H global
+// 3. Graphique : Histogramme Monte‑Carlo (optionnel)
+// ======================================================
+function renderMonteCarloDistribution(mcData) {
+    const ctx = document.getElementById("mcDistChart");
+    if (!ctx) return; // si pas de canvas, on ignore
+
+    new Chart(ctx.getContext("2d"), {
+        type: "bar",
+        data: {
+            labels: ["Paris", "Monaco"],
+            datasets: [{
+                label: "Probabilité de victoire (%)",
+                data: [mcData.paris, mcData.monaco],
+                backgroundColor: ["#00c3ff", "#ff004c"],
+                borderRadius: 8
+            }]
+        },
+        options: {
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    min: 0,
+                    max: 100,
+                    ticks: { color: "white" },
+                    grid: { color: "rgba(255,255,255,0.05)" }
+                },
+                x: {
+                    ticks: { color: "white" },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}
+
+// ======================================================
+// 4. Graphique : H2H global
 // ======================================================
 function renderH2HChart(h2h) {
     const ctx = document.getElementById("h2hChart").getContext("2d");
@@ -144,7 +180,7 @@ function renderH2HChart(h2h) {
 }
 
 // ======================================================
-// 4. Graphique : Stats (radar)
+// 5. Graphique : Stats (radar)
 // ======================================================
 function renderStatsChart(stats) {
     const ctx = document.getElementById("statsChart").getContext("2d");
