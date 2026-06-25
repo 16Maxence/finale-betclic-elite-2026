@@ -35,7 +35,7 @@ async function init() {
     renderH2HAverages(h2h);
     renderH2HCumulative(h2h);
 
-    // RADAR H2H (nouvel ID)
+    // RADAR H2H
     renderH2HRadar(h2h);
 
     // STATS
@@ -49,7 +49,10 @@ async function init() {
     showSection("prob");
 }
 
-init();
+// ======================================================
+// LANCEMENT APRÈS CHARGEMENT DU DOM
+// ======================================================
+window.addEventListener("DOMContentLoaded", init);
 
 // ======================================================
 // HEADER
@@ -147,7 +150,7 @@ function updateH2HTable(h2h) {
 }
 
 // ======================================================
-// RADAR H2H (nouvelle fonction)
+// RADAR H2H
 // ======================================================
 function renderH2HRadar(h2h) {
     const canvas = document.getElementById("h2hRadarChart");
