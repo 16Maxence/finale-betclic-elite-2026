@@ -2,119 +2,84 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paris vs Monaco — Finale Betclic Élite 2026</title>
+    <title>Dashboard Paris vs Monaco</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- Chart.js CDN -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Script principal -->
+    <!-- JS -->
+    <script defer src="js/chart.js"></script>
     <script defer src="js/app.js"></script>
 </head>
 
 <body>
 
-<header class="hero-header">
-    <div class="hero-overlay"></div>
+    <h1>Paris vs Monaco — Dashboard</h1>
 
-    <div class="hero-content">
-        <div class="team-logos">
-            <img src="img/paris.png" class="team-logo">
-            <span class="vs">VS</span>
-            <img src="img/monaco.png" class="team-logo">
+    <!-- ============================
+         HEADER PROBABILITÉS
+    ============================= -->
+    <div class="header-prob">
+        <div>
+            <b>Paris</b><br>
+            <span id="header-paris-prob">--%</span>
         </div>
-
-        <h1>PARIS vs MONACO</h1>
-        <p class="subtitle">Finale Betclic Élite — Prédictions mises à jour automatiquement</p>
-
-        <div class="header-stats">
-            <div class="hstat">
-                <div class="hstat-val" id="header-paris-prob">--%</div>
-                <div class="hstat-label">Paris</div>
-            </div>
-            <div class="hstat">
-                <div class="hstat-val" id="header-monaco-prob">--%</div>
-                <div class="hstat-label">Monaco</div>
-            </div>
+        <div>
+            <b>Monaco</b><br>
+            <span id="header-monaco-prob">--%</span>
         </div>
     </div>
-</header>
 
-<nav class="tabs">
-    <button onclick="showTab('qt')">Évolution QT</button>
-    <button onclick="showTab('mc')">Monte-Carlo</button>
-    <button onclick="showTab('h2h')">H2H</button>
-    <button onclick="showTab('stats')">Stats</button>
-</nav>
 
-<main>
-
-<!-- ========================= -->
-<!-- ÉVOLUTION QT -->
-<!-- ========================= -->
-<section id="qt" class="tab-section">
+    <!-- ============================
+         PROBABILITÉS QT
+    ============================= -->
     <h2>Évolution des probabilités</h2>
-    <canvas id="probChart"></canvas>
 
-    <h3>Détails par QT</h3>
     <div id="before_match"></div>
     <div id="after_q1"></div>
     <div id="after_q2"></div>
     <div id="after_q3"></div>
     <div id="after_q4"></div>
-</section>
+
+    <canvas id="probChart"></canvas>
 
 
-<!-- ========================= -->
-<!-- MONTE CARLO -->
-<!-- ========================= -->
-<section id="mc" class="tab-section hidden">
-    <h2>Simulation Monte-Carlo</h2>
-    <p>10 000 simulations de fin de match</p>
+    <!-- ============================
+         MONTE-CARLO H2H
+    ============================= -->
+    <h2>Monte-Carlo H2H</h2>
 
     <div id="mc-result"></div>
-
     <canvas id="mcChart"></canvas>
-</section>
 
 
-<!-- ========================= -->
-<!-- H2H -->
-<!-- ========================= -->
-<section id="h2h" class="tab-section hidden">
-    <h2>Historique des confrontations</h2>
+    <!-- ============================
+         H2H GLOBAL
+    ============================= -->
+    <h2>Face-à-face (H2H)</h2>
 
     <div id="h2h-global"></div>
-    <div id="h2h-last5"></div>
-
     <canvas id="h2hChart"></canvas>
-</section>
 
 
-<!-- ========================= -->
-<!-- STATS -->
-<!-- ========================= -->
-<section id="stats" class="tab-section hidden">
-    <h2>Stats avancées</h2>
+    <!-- ============================
+         STATS DES 5 DERNIERS MATCHS
+    ============================= -->
+    <h2>Stats — 5 derniers matchs</h2>
 
     <div id="stats-compare"></div>
-
     <canvas id="statsChart"></canvas>
 
-    <h3>Blessures</h3>
+
+    <!-- ============================
+         BLESSURES
+    ============================= -->
+    <h2>Blessures</h2>
+
     <div id="injuries"></div>
-</section>
-
-</main>
-
-<script>
-function showTab(id) {
-    document.querySelectorAll(".tab-section").forEach(s => s.classList.add("hidden"));
-    document.getElementById(id).classList.remove("hidden");
-}
-</script>
 
 </body>
 </html>
