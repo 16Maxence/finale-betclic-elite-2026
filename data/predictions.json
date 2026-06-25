@@ -34,5 +34,10 @@
     "_comment": "Diff final = -9 → prob brute ≈ 41.8%, mais Monte-Carlo = 0% → Paris tombe à 0% → Monaco champion."
   },
 
-  "_comment": "Modèle utilisé : base = 50 + avantage_terrain(7) + impact_blessures. À chaque QT : prob = base + (écart_score * 1.8). Le résultat est clampé entre 1% et 99%. Le Monte-Carlo (10 000 simulations) ajuste la probabilité finale si l'écart est trop important."
+  "montecarlo_h2h": {
+    "paris": 0,
+    "monaco": 0
+  },
+
+  "_comment": "Modèle QT conservé pour l'affichage. Le Monte-Carlo H2H est mis à jour automatiquement via update_predictions.py."
 }
