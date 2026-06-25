@@ -147,9 +147,20 @@ function updateInjuries(inj) {
 // ONGLET : AFFICHER UNE SECTION
 // -----------------------------
 function showSection(name) {
+
+    // cacher toutes les sections
     document.querySelectorAll(".section").forEach(sec => {
         sec.classList.remove("active");
     });
 
+    // afficher la bonne section
     document.querySelector(`[data-section="${name}"]`).classList.add("active");
+
+    // bouton actif
+    document.querySelectorAll(".nav-buttons button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    document.querySelector(`.nav-buttons button[onclick="showSection('${name}')"]`)
+        .classList.add("active");
 }
