@@ -38,26 +38,30 @@ function renderProbChart(pred) {
         type: "line",
         data: {
             labels,
-            datasets: [
-                {
-                    label: "Paris",
-                    data: paris,
-                    borderColor: "#00c3ff",
-                    backgroundColor: "rgba(0,195,255,0.25)",
-                    borderWidth: 3,
-                    tension: 0.3,
-                    fill: true
-                },
-                {
-                    label: "Monaco",
-                    data: monaco,
-                    borderColor: "#ff004c",
-                    backgroundColor: "rgba(255,0,76,0.25)",
-                    borderWidth: 3,
-                    tension: 0.3,
-                    fill: true
-                }
-            ]
+                datasets: [
+                    {
+                        label: "Paris",
+                        data: paris,
+                        borderColor: "#00c3ff",
+                        backgroundColor: "rgba(0,195,255,0.25)",
+                        borderWidth: 4,
+                        tension: 0.3,
+                        fill: true,
+                        shadowColor: "#00c3ff",
+                        shadowBlur: 18
+                    },
+                    {
+                        label: "Monaco",
+                        data: monaco,
+                        borderColor: "#ff004c",
+                        backgroundColor: "rgba(255,0,76,0.25)",
+                        borderWidth: 4,
+                        tension: 0.3,
+                        fill: true,
+                        shadowColor: "#ff004c",
+                        shadowBlur: 18
+                    }
+                ]
         },
         options: {
             responsive: true,
