@@ -40,7 +40,7 @@ h2 {
 }
 
 /* ------------------------------
-   NAVIGATION BUTTONS
+   NAVIGATION BUTTONS (ONGLETS)
 ------------------------------ */
 .nav-buttons {
     display: flex;
@@ -67,12 +67,17 @@ h2 {
 }
 
 /* ------------------------------
-   SECTIONS
+   SECTIONS (ONGLETS)
 ------------------------------ */
 .section {
+    display: none; /* caché par défaut */
     margin: 40px auto;
     max-width: 900px;
     padding: 20px;
+}
+
+.section.active {
+    display: block; /* section visible */
 }
 
 /* ------------------------------
