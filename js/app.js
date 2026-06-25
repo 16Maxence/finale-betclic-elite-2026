@@ -16,8 +16,15 @@ async function init() {
     updateQT(pred);
     renderProbChart(pred);
 
+    updateMonteCarlo(pred);
+    renderMonteCarloChart(pred);
+
     updateH2H(h2h);
+    renderH2HChart(h2h);
+
     updateStats(stats);
+    renderStatsChart(stats);
+
     updateInjuries(injuries);
 }
 
@@ -28,11 +35,11 @@ init();
 // HEADER
 // -----------------------------
 function updateHeader(pred) {
-    const paris = pred.before_match.paris_win_prob;
-    const monaco = pred.before_match.monaco_win_prob;
+    document.getElementById("header-paris-prob").textContent =
+        pred.before_match.paris_win_prob + "%";
 
-    document.getElementById("header-paris-prob").textContent = paris + "%";
-    document.getElementById("header-monaco-prob").textContent = monaco + "%";
+    document.getElementById("header-monaco-prob").textContent =
+        pred.before_match.monaco_win_prob + "%";
 }
 
 
@@ -108,15 +115,45 @@ function renderProbChart(pred) {
 
 
 // -----------------------------
-// H2H GLOBAL
+// MONTE CARLO
+// -----------------------------
+function updateMonteCarlo(pred) {
+    document.getElementById("mc-result").innerHTML = `
+        <div class="info-box">
+            <b>Résultat Monte-Carlo :</b><br>
+            Paris : ${pred.after_q4.paris_win_prob}%<br>
+            Monaco : ${pred.after_q4.monaco_win_prob}%
+        </div>
+    `;
+}
+
+function renderMonteCarloChart(pred) {
+    const ctx = document.getElementById("mcChart");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Paris", "Monaco"],
+            datasets: [{
+                label: "Probabilités (%)",
+                data: [
+                    pred.after_q4.paris_win_prob,
+                    pred.after_q4.monaco_win_prob
+                ],
+                backgroundColor: ["#00c3ff", "#ff004c"]
+            }]
+        }
+    });
+}
+
+
+// -----------------------------
+// H2H
 // -----------------------------
 function updateH2H(h2h) {
     const g = h2h.global;
 
-    const container = document.getElementById("h2h-global");
-    if (!container) return;
-
-    container.innerHTML = `
+    document.getElementById("h2h-global").innerHTML = `
         <div class="info-box">
             <b>Face-à-face global :</b><br>
             ${g.total_matches} matchs<br>
@@ -126,24 +163,39 @@ function updateH2H(h2h) {
     `;
 }
 
+function renderH2HChart(h2h) {
+    const ctx = document.getElementById("h2hChart");
+
+    new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: ["Paris", "Monaco"],
+            datasets: [{
+                data: [
+                    h2h.global.paris_wins,
+                    h2h.global.monaco_wins
+                ],
+                backgroundColor: ["#00c3ff", "#ff004c"]
+            }]
+        }
+    });
+}
+
 
 // -----------------------------
-// STATS LAST 5
+// STATS
 // -----------------------------
 function updateStats(stats) {
-    const container = document.getElementById("stats-compare");
-    if (!container) return;
-
-    container.innerHTML = `
+    document.getElementById("stats-compare").innerHTML = `
         <div class="info-box">
-            <b>5 derniers matchs — Paris</b><br>
+            <b>Paris — 5 derniers matchs</b><br>
             ${stats.paris_last5.wins}V - ${stats.paris_last5.losses}D<br>
             Pts marqués : ${stats.paris_last5.ppg}<br>
             Pts encaissés : ${stats.paris_last5.opp_ppg}
         </div>
 
         <div class="info-box">
-            <b>5 derniers matchs — Monaco</b><br>
+            <b>Monaco — 5 derniers matchs</b><br>
             ${stats.monaco_last5.wins}V - ${stats.monaco_last5.losses}D<br>
             Pts marqués : ${stats.monaco_last5.ppg}<br>
             Pts encaissés : ${stats.monaco_last5.opp_ppg}
@@ -151,15 +203,47 @@ function updateStats(stats) {
     `;
 }
 
+function renderStatsChart(stats) {
+    const ctx = document.getElementById("statsChart");
+
+    new Chart(ctx, {
+        type: "radar",
+        data: {
+            labels: ["PPG", "Opp PPG", "Wins", "Losses"],
+            datasets: [
+                {
+                    label: "Paris",
+                    data: [
+                        stats.paris_last5.ppg,
+                        stats.paris_last5.opp_ppg,
+                        stats.paris_last5.wins,
+                        stats.paris_last5.losses
+                    ],
+                    borderColor: "#00c3ff",
+                    backgroundColor: "rgba(0,195,255,0.3)"
+                },
+                {
+                    label: "Monaco",
+                    data: [
+                        stats.monaco_last5.ppg,
+                        stats.monaco_last5.opp_ppg,
+                        stats.monaco_last5.wins,
+                        stats.monaco_last5.losses
+                    ],
+                    borderColor: "#ff004c",
+                    backgroundColor: "rgba(255,0,76,0.3)"
+                }
+            ]
+        }
+    });
+}
+
 
 // -----------------------------
 // INJURIES
 // -----------------------------
 function updateInjuries(inj) {
-    const container = document.getElementById("injuries");
-    if (!container) return;
-
-    container.innerHTML = `
+    document.getElementById("injuries").innerHTML = `
         <div class="info-box">
             <b>Paris</b><br>
             Blessés : ${inj.paris.out.join(", ") || "Aucun"}<br>
