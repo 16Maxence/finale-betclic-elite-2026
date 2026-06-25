@@ -1,42 +1,52 @@
-// -----------------------------
+// ======================================================
 // Chargement générique JSON
-// -----------------------------
+// ======================================================
 async function loadJSON(path) {
     const response = await fetch(path);
     return await response.json();
 }
 
+// ======================================================
+// Initialisation du dashboard
+// ======================================================
 async function init() {
     const pred = await loadJSON("data/predictions.json");
     const h2h = await loadJSON("data/h2h.json");
     const stats = await loadJSON("data/stats.json");
     const injuries = await loadJSON("data/injuries.json");
 
+    // Header
     updateHeader(pred);
+
+    // Probabilités QT
     updateQT(pred);
     renderProbChart(pred);
 
+    // Monte-Carlo
     updateMonteCarlo(pred);
     renderMonteCarloChart(pred);
+    renderMonteCarloDistribution(pred.montecarlo_h2h);
 
+    // H2H
     updateH2H(h2h);
     renderH2HChart(h2h);
 
+    // Stats
     updateStats(stats);
     renderStatsChart(stats);
 
+    // Blessures
     updateInjuries(injuries);
 
-    // Affiche la section Probabilités au chargement
+    // Section par défaut
     showSection("prob");
 }
 
 init();
 
-
-// -----------------------------
+// ======================================================
 // HEADER
-// -----------------------------
+// ======================================================
 function updateHeader(pred) {
     document.getElementById("header-paris-prob").textContent =
         pred.before_match.paris_win_prob + "%";
@@ -45,10 +55,9 @@ function updateHeader(pred) {
         pred.before_match.monaco_win_prob + "%";
 }
 
-
-// -----------------------------
+// ======================================================
 // QT DETAILS
-// -----------------------------
+// ======================================================
 function updateQT(pred) {
 
     document.getElementById("before_match").innerHTML =
@@ -67,10 +76,9 @@ function updateQT(pred) {
         `<div class="qt-card"><b>Fin match :</b> Paris ${pred.after_q4.paris_win_prob}% — Monaco ${pred.after_q4.monaco_win_prob}%<br>${pred.after_q4.score}</div>`;
 }
 
-
-// -----------------------------
+// ======================================================
 // MONTE CARLO H2H
-// -----------------------------
+// ======================================================
 function updateMonteCarlo(pred) {
     const mc = pred.montecarlo_h2h;
 
@@ -83,10 +91,9 @@ function updateMonteCarlo(pred) {
     `;
 }
 
-
-// -----------------------------
+// ======================================================
 // H2H
-// -----------------------------
+// ======================================================
 function updateH2H(h2h) {
     const g = h2h.global;
 
@@ -100,10 +107,9 @@ function updateH2H(h2h) {
     `;
 }
 
-
-// -----------------------------
+// ======================================================
 // STATS
-// -----------------------------
+// ======================================================
 function updateStats(stats) {
     document.getElementById("stats-compare").innerHTML = `
         <div class="info-box">
@@ -122,10 +128,9 @@ function updateStats(stats) {
     `;
 }
 
-
-// -----------------------------
+// ======================================================
 // INJURIES
-// -----------------------------
+// ======================================================
 function updateInjuries(inj) {
     document.getElementById("injuries").innerHTML = `
         <div class="info-box">
@@ -142,10 +147,9 @@ function updateInjuries(inj) {
     `;
 }
 
-
-// -----------------------------
+// ======================================================
 // ONGLET : AFFICHER UNE SECTION
-// -----------------------------
+// ======================================================
 function showSection(name) {
 
     // cacher toutes les sections
@@ -156,7 +160,7 @@ function showSection(name) {
     // afficher la bonne section
     document.querySelector(`[data-section="${name}"]`).classList.add("active");
 
-    // bouton actif
+    // bouton actif néon
     document.querySelectorAll(".nav-buttons button").forEach(btn => {
         btn.classList.remove("active");
     });
