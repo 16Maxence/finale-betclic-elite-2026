@@ -5,47 +5,61 @@
     "monaco_wins": 19
   },
 
-  "competitions": {
-    "ligue_nationale": { "matches": 23, "paris": 8, "monaco": 15 },
-    "euroligue": { "matches": 4, "paris": 1, "monaco": 3 },
-    "coupe_de_france": { "matches": 1, "paris": 0, "monaco": 1 },
-    "leaders_cup": { "matches": 1, "paris": 1, "monaco": 0 }
-  },
-
-  "last5": [
-    { "date": "2026-06-21", "monaco": 96, "paris": 84 },
-    { "date": "2026-06-19", "monaco": 77, "paris": 88 },
-    { "date": "2026-06-17", "monaco": 102, "paris": 90 },
-    { "date": "2026-06-14", "monaco": 91, "paris": 95 },
-    { "date": "2026-05-10", "monaco": 123, "paris": 95 }
+  "last_matches": [
+    {
+      "date": "2026-06-14",
+      "arena": "Adidas Arena",
+      "paris": 95,
+      "monaco": 91
+    },
+    {
+      "date": "2026-06-10",
+      "arena": "Salle Gaston Médecin",
+      "paris": 82,
+      "monaco": 88
+    },
+    {
+      "date": "2026-06-07",
+      "arena": "Adidas Arena",
+      "paris": 101,
+      "monaco": 94
+    },
+    {
+      "date": "2026-06-04",
+      "arena": "Salle Gaston Médecin",
+      "paris": 76,
+      "monaco": 84
+    },
+    {
+      "date": "2026-05-30",
+      "arena": "Adidas Arena",
+      "paris": 89,
+      "monaco": 92
+    }
   ],
 
-  "streaks": {
-    "current_winner": "Monaco",
-    "current_streak": 1,
-    "details": [
-      { "date": "2026-06-21", "winner": "Monaco" }
-    ]
+  "averages": {
+    "paris": {
+      "ppg": 88.6,
+      "opp_ppg": 89.8,
+      "fg2_pct": 54,
+      "fg3_pct": 36,
+      "reb": 38,
+      "to": 12
+    },
+    "monaco": {
+      "ppg": 89.8,
+      "opp_ppg": 88.6,
+      "fg2_pct": 55,
+      "fg3_pct": 35,
+      "reb": 40,
+      "to": 14
+    }
   },
 
-  "matches": [
-    { "date": "2026-06-21", "monaco": 96, "paris": 84 },
-    { "date": "2026-06-19", "monaco": 77, "paris": 88 },
-    { "date": "2026-06-17", "monaco": 102, "paris": 90 },
-    { "date": "2026-06-14", "monaco": 91, "paris": 95 },
-    { "date": "2026-05-10", "monaco": 123, "paris": 95 },
-    { "date": "2025-01-15", "monaco": 95, "paris": 87 },
-    { "date": "2025-12-04", "monaco": 125, "paris": 104 },
-    { "date": "2025-12-02", "monaco": 109, "paris": 103 },
-    { "date": "2025-10-12", "monaco": 99, "paris": 94 },
-    { "date": "2025-06-24", "monaco": 93, "paris": 99 },
-    { "date": "2025-06-22", "monaco": 80, "paris": 74 },
-    { "date": "2025-06-20", "monaco": 81, "paris": 78 },
-    { "date": "2025-06-17", "monaco": 67, "paris": 92 },
-    { "date": "2025-06-15", "monaco": 82, "paris": 94 },
-    { "date": "2025-03-09", "monaco": 94, "paris": 63 },
-    { "date": "2025-03-05", "monaco": 91, "paris": 79 },
-    { "date": "2024-12-08", "monaco": 111, "paris": 104 },
-    { "date": "2024-10-24", "monaco": 80, "paris": 87 }
-  ]
+  "cumulative": {
+    "labels": ["Match 1", "Match 2", "Match 3", "Match 4", "Match 5"],
+    "paris": [1, 1, 2, 2, 2],
+    "monaco": [0, 1, 1, 2, 3]
+  }
 }
