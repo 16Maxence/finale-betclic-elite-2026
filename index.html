@@ -7,10 +7,10 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- Chart.js via CDN (fiable, évite les erreurs 404) -->
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Ton script principal -->
+    <!-- Script principal -->
     <script defer src="js/app.js"></script>
 </head>
 
@@ -51,6 +51,9 @@
 
 <main>
 
+<!-- ========================= -->
+<!-- ÉVOLUTION QT -->
+<!-- ========================= -->
 <section id="qt" class="tab-section">
     <h2>Évolution des probabilités</h2>
     <canvas id="probChart"></canvas>
@@ -63,20 +66,45 @@
     <div id="after_q4"></div>
 </section>
 
+
+<!-- ========================= -->
+<!-- MONTE CARLO -->
+<!-- ========================= -->
 <section id="mc" class="tab-section hidden">
     <h2>Simulation Monte-Carlo</h2>
     <p>10 000 simulations de fin de match</p>
+
+    <div id="mc-result"></div>
+
     <canvas id="mcChart"></canvas>
 </section>
 
+
+<!-- ========================= -->
+<!-- H2H -->
+<!-- ========================= -->
 <section id="h2h" class="tab-section hidden">
     <h2>Historique des confrontations</h2>
+
+    <div id="h2h-global"></div>
+    <div id="h2h-last5"></div>
+
     <canvas id="h2hChart"></canvas>
 </section>
 
+
+<!-- ========================= -->
+<!-- STATS -->
+<!-- ========================= -->
 <section id="stats" class="tab-section hidden">
     <h2>Stats avancées</h2>
+
+    <div id="stats-compare"></div>
+
     <canvas id="statsChart"></canvas>
+
+    <h3>Blessures</h3>
+    <div id="injuries"></div>
 </section>
 
 </main>
