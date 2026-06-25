@@ -58,12 +58,21 @@ h2 {
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
-    transition: 0.2s;
+    transition: 0.25s;
 }
 
 .nav-buttons button:hover {
     background: #00c3ff;
     color: black;
+}
+
+/* ⭐ Bouton actif (effet néon) */
+.nav-buttons button.active {
+    background: linear-gradient(90deg, #00c3ff, #ff004c);
+    color: black;
+    border: none;
+    box-shadow: 0 0 12px #00c3ff, 0 0 12px #ff004c;
+    transform: scale(1.05);
 }
 
 /* ------------------------------
@@ -74,10 +83,12 @@ h2 {
     margin: 40px auto;
     max-width: 900px;
     padding: 20px;
+    transition: opacity 0.3s ease;
 }
 
 .section.active {
     display: block;
+    opacity: 1;
 }
 
 /* ------------------------------
@@ -134,13 +145,16 @@ canvas {
     display: block !important;
 }
 
-/* 🔥 GRAPH PROBA PLUS GRAND 🔥 */
+/* ⭐ GRAPH PROBA PLUS GRAND + FOND DÉGRADÉ */
 #probChart {
-    max-width: 800px !important;   /* élargi */
-    height: 420px !important;      /* plus haut */
+    max-width: 850px !important;
+    height: 450px !important;
+    background: linear-gradient(135deg, rgba(0,195,255,0.15), rgba(255,0,76,0.15));
+    border-radius: 12px;
+    padding: 10px;
 }
 
-/* autres graphs restent normaux */
+/* autres graphs */
 #mcChart,
 #h2hChart,
 #statsChart {
