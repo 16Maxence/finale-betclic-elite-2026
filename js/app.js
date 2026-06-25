@@ -15,27 +15,31 @@ async function init() {
     const stats = await loadJSON("data/stats.json");
     const injuries = await loadJSON("data/injuries.json");
 
-    // Header
+    // HEADER
     updateHeader(pred);
 
-    // Probabilités QT
+    // PROBABILITÉS QT
     updateQT(pred);
     renderProbChart(pred);
 
-    // Monte-Carlo
+    // MONTE-CARLO
     updateMonteCarlo(pred);
     renderMonteCarloChart(pred);
     renderMonteCarloDistribution(pred.montecarlo_h2h);
 
     // H2H
-    updateH2H(h2h);
+    updateH2HGlobal(h2h);
+    updateH2HTable(h2h);
     renderH2HChart(h2h);
+    renderH2HHistory(h2h);
+    renderH2HAverages(h2h);
+    renderH2HCumulative(h2h);
 
-    // Stats
+    // STATS
     updateStats(stats);
     renderStatsChart(stats);
 
-    // Blessures
+    // BLESSURES
     updateInjuries(injuries);
 
     // Section par défaut
@@ -92,9 +96,9 @@ function updateMonteCarlo(pred) {
 }
 
 // ======================================================
-// H2H
+// H2H GLOBAL
 // ======================================================
-function updateH2H(h2h) {
+function updateH2HGlobal(h2h) {
     const g = h2h.global;
 
     document.getElementById("h2h-global").innerHTML = `
@@ -105,6 +109,38 @@ function updateH2H(h2h) {
             Monaco : ${g.monaco_wins} victoires
         </div>
     `;
+}
+
+// ======================================================
+// TABLEAU DES DERNIERS MATCHS
+// ======================================================
+function updateH2HTable(h2h) {
+    const container = document.getElementById("h2h-table");
+    if (!container) return;
+
+    let html = `
+        <table class="h2h-table">
+            <tr>
+                <th>Date</th>
+                <th>Paris</th>
+                <th>Monaco</th>
+                <th>Salle</th>
+            </tr>
+    `;
+
+    h2h.last_matches.forEach(m => {
+        html += `
+            <tr>
+                <td>${m.date}</td>
+                <td>${m.paris}</td>
+                <td>${m.monaco}</td>
+                <td>${m.arena}</td>
+            </tr>
+        `;
+    });
+
+    html += `</table>`;
+    container.innerHTML = html;
 }
 
 // ======================================================
@@ -152,15 +188,12 @@ function updateInjuries(inj) {
 // ======================================================
 function showSection(name) {
 
-    // cacher toutes les sections
     document.querySelectorAll(".section").forEach(sec => {
         sec.classList.remove("active");
     });
 
-    // afficher la bonne section
     document.querySelector(`[data-section="${name}"]`).classList.add("active");
 
-    // bouton actif néon
     document.querySelectorAll(".nav-buttons button").forEach(btn => {
         btn.classList.remove("active");
     });
