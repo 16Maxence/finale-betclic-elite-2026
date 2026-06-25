@@ -35,8 +35,8 @@
   },
 
   "montecarlo_h2h": {
-    "paris": 0,
-    "monaco": 0
+    "paris": 85,
+    "monaco": 15
   },
 
   "_comment": "Modèle QT conservé pour l'affichage. Le Monte-Carlo H2H est mis à jour automatiquement via update_predictions.py."
