@@ -15,8 +15,7 @@ async function init() {
     const stats = await loadJSON("data/stats.json");
     const injuries = await loadJSON("data/injuries.json");
 
-    // /!\ CORRECTION : Activer la section par défaut AVANT de générer les graphiques
-    // Cela permet à Chart.js de calculer les dimensions sur des canvas visibles (pas en display: none)
+    // Activer la section par défaut en premier pour éviter le bug de taille de Chart.js
     showSection("prob");
 
     // HEADER
@@ -44,8 +43,7 @@ async function init() {
 
     // STATS
     updateStats(stats);
-    // /!\ CORRECTION : Commenté car cette fonction n'existe pas dans chart.js et bloquait l'exécution
-    // renderStatsChart(stats); 
+    renderStatsChart(stats);
 
     // BLESSURES
     updateInjuries(injuries);
