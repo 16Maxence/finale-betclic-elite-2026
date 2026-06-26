@@ -15,6 +15,10 @@ async function init() {
     const stats = await loadJSON("data/stats.json");
     const injuries = await loadJSON("data/injuries.json");
 
+    // /!\ CORRECTION : Activer la section par défaut AVANT de générer les graphiques
+    // Cela permet à Chart.js de calculer les dimensions sur des canvas visibles (pas en display: none)
+    showSection("prob");
+
     // HEADER
     updateHeader(pred);
 
@@ -30,23 +34,21 @@ async function init() {
     // H2H
     updateH2HGlobal(h2h);
     updateH2HTable(h2h);
-
-    // ⚠️ IMPORTANT : maintenant que le canvas existe, on peut dessiner
     renderH2HChart(h2h);
     renderH2HHistory(h2h);
     renderH2HAverages(h2h);
     renderH2HCumulative(h2h);
+
+    // RADAR H2H
     renderH2HRadar(h2h);
 
     // STATS
     updateStats(stats);
-    renderStatsChart(stats);
+    // /!\ CORRECTION : Commenté car cette fonction n'existe pas dans chart.js et bloquait l'exécution
+    // renderStatsChart(stats); 
 
     // BLESSURES
     updateInjuries(injuries);
-
-    // Section par défaut
-    showSection("prob");
 }
 
 // ======================================================
@@ -69,7 +71,6 @@ function updateHeader(pred) {
 // QT DETAILS
 // ======================================================
 function updateQT(pred) {
-
     document.getElementById("before_match").innerHTML =
         `<div class="qt-card"><b>Avant match :</b> Paris ${pred.before_match.paris_win_prob}% — Monaco ${pred.before_match.monaco_win_prob}%</div>`;
 
@@ -150,6 +151,84 @@ function updateH2HTable(h2h) {
 }
 
 // ======================================================
+// RADAR H2H
+// ======================================================
+function renderH2HRadar(h2h) {
+    const canvas = document.getElementById("h2hRadarChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    new Chart(ctx, {
+        type: "radar",
+        data: {
+            labels: ["PPG", "Opp PPG", "%2pts", "%3pts", "Reb", "TO"],
+            datasets: [
+                {
+                    label: "Paris",
+                    data: [
+                        h2h.averages.paris.ppg,
+                        h2h.averages.paris.opp_ppg,
+                        h2h.averages.paris.fg2_pct,
+                        h2h.averages.paris.fg3_pct,
+                        h2h.averages.paris.reb,
+                        h2h.averages.paris.to
+                    ],
+                    borderColor: "#00c3ff",
+                    backgroundColor: "rgba(0,195,255,0.25)",
+                    borderWidth: 2
+                },
+                {
+                    label: "Monaco",
+                    data: [
+                        h2h.averages.monaco.ppg,
+                        h2h.averages.monaco.opp_ppg,
+                        h2h.averages.monaco.fg2_pct,
+                        h2h.averages.monaco.fg3_pct,
+                        h2h.averages.monaco.reb,
+                        h2h.averages.monaco.to
+                    ],
+                    borderColor: "#ff004c",
+                    backgroundColor: "rgba(255,0,76,0.25)",
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            plugins: { legend: { labels: { color: "white" } } },
+            scales: {
+                r: {
+                    angleLines: { color: "white" },
+                    grid: { color: "white" },
+                    pointLabels: { color: "white" }
+                }
+            }
+        }
+    });
+}
+
+// ======================================================
+// STATS
+// ======================================================
+function updateStats(stats) {
+    document.getElementById("stats-compare").innerHTML = `
+        <div class="info-box">
+            <b>Paris — 5 derniers matchs</b><br>
+            ${stats.paris_last5.wins}V - ${stats.paris_last5.losses}D<br>
+            Pts marqués : ${stats.paris_last5.ppg}<br>
+            Pts encaissés : ${stats.paris_last5.opp_ppg}
+        </div>
+
+        <div class="info-box">
+            <b>Monaco — 5 derniers matchs</b><br>
+            ${stats.monaco_last5.wins}V - ${stats.monaco_last5.losses}D<br>
+            Pts marqués : ${stats.monaco_last5.ppg}<br>
+            Pts encaissés : ${stats.monaco_last5.opp_ppg}
+        </div>
+    `;
+}
+
+// ======================================================
 // INJURIES
 // ======================================================
 function updateInjuries(inj) {
@@ -172,17 +251,17 @@ function updateInjuries(inj) {
 // ONGLET : AFFICHER UNE SECTION
 // ======================================================
 function showSection(name) {
-
     document.querySelectorAll(".section").forEach(sec => {
         sec.classList.remove("active");
     });
 
-    document.querySelector(`[data-section="${name}"]`).classList.add("active");
+    const targetSection = document.querySelector(`[data-section="${name}"]`);
+    if (targetSection) targetSection.classList.add("active");
 
     document.querySelectorAll(".nav-buttons button").forEach(btn => {
         btn.classList.remove("active");
     });
 
-    document.querySelector(`.nav-buttons button[onclick="showSection('${name}')"]`)
-        .classList.add("active");
+    const targetBtn = document.querySelector(`.nav-buttons button[onclick="showSection('${name}')"]`);
+    if (targetBtn) targetBtn.classList.add("active");
 }
