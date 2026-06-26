@@ -1,194 +1,279 @@
-/* =============================== */
-/* GLOBAL */
-/* =============================== */
-
-body {
-    background: #0d0d0d;
-    color: white;
-    font-family: Arial, sans-serif;
+/* ======================================================
+   DESIGN GLOBAL & PALETTE DE COULEURS
+   ===================================================== */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h1, h2, h3 {
+body {
+    background-color: #0b0f19;
+    color: #ffffff;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ======================================================
+   HEADER & SCORES DE BASE
+   ===================================================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #111827, #1f2937);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 1.8rem;
     text-align: center;
-    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #00c3ff, #ff004c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
+.team-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.header-prob {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.prob-box {
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.prob-box.paris {
+    background: rgba(0, 195, 255, 0.15);
+    border: 2px solid #00c3ff;
+    color: #00c3ff;
+}
+
+.prob-box.monaco {
+    background: rgba(255, 0, 76, 0.15);
+    border: 2px solid #ff004c;
+    color: #ff004c;
+}
+
+/* ======================================================
+   NAVIGATION (BARRE D'ONGLETS)
+   ===================================================== */
+.nav-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.nav-buttons button {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 20px;
+    background: #1f2937;
+    border: 1px solid #374151;
+    color: #9ca3af;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+}
+
+.nav-buttons button:hover {
+    background: #374151;
+    color: #ffffff;
+}
+
+.nav-buttons button.active {
+    background: linear-gradient(135deg, #00c3ff, #ff004c);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 195, 255, 0.3);
+}
+
+/* ======================================================
+   SECTIONS & CONTENEURS
+   ===================================================== */
 .section {
     display: none;
-    padding: 20px;
+    background: #111827;
+    border: 1px solid #1f2937;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    margin-bottom: 30px;
 }
 
 .section.active {
     display: block;
 }
 
-/* =============================== */
-/* HEADER */
-/* =============================== */
-
-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    padding: 20px;
+.section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #1f2937;
+    padding-bottom: 10px;
+    color: #f3f4f6;
 }
 
-.team-logo {
-    width: 80px;
-    height: 80px;
+.section h3 {
+    font-size: 1.15rem;
+    margin: 25px 0 15px 0;
+    color: #9ca3af;
 }
 
-/* =============================== */
-/* HEADER PROBABILITÉS */
-/* =============================== */
+/* ======================================================
+   CARDS DE PROBABILITÉS PAR QUART-TEMPS
+   ===================================================== */
+.qt-card {
+    background: #1f2937;
+    border-left: 4px solid #9ca3af;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    border-radius: 4px 8px 8px 4px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
 
-.header-prob {
+/* ======================================================
+   BOX D'INFORMATION & STATS COMPARES
+   ===================================================== */
+#stats-compare, #injuries, #mc-result, #h2h-global {
     display: flex;
-    justify-content: center;
-    gap: 40px;
+    flex-wrap: wrap;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
-.prob-box {
-    padding: 15px 25px;
-    border-radius: 10px;
-    font-size: 22px;
-    font-weight: bold;
-    color: white;
-}
-
-.paris {
-    background: rgba(0, 195, 255, 0.2);
-    border: 2px solid #00c3ff;
-}
-
-.monaco {
-    background: rgba(255, 0, 76, 0.2);
-    border: 2px solid #ff004c;
-}
-
-/* =============================== */
-/* NAVIGATION */
-/* =============================== */
-
-.nav-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.nav-buttons button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #222;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.2s;
-}
-
-.nav-buttons button:hover {
-    background: #333;
-}
-
-.nav-buttons button.active {
-    background: linear-gradient(45deg, #00c3ff, #ff004c);
-    box-shadow: 0 0 12px #00c3ff, 0 0 12px #ff004c;
-}
-
-/* =============================== */
-/* QT CARDS */
-/* =============================== */
-
-.qt-card {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 12px;
-    margin: 10px auto;
-    width: 60%;
-    border-radius: 8px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* =============================== */
-/* INFO BOXES */
-/* =============================== */
-
 .info-box {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    margin: 15px auto;
-    width: 60%;
+    flex: 1;
+    min-width: 280px;
+    background: #1e2433;
+    border: 1px solid #2e374d;
+    padding: 20px;
     border-radius: 10px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.1);
+    line-height: 1.6;
 }
 
-/* =============================== */
-/* CANVAS */
-/* =============================== */
-
-canvas {
-    display: block;
-    margin: 30px auto;
-    max-width: 700px;
-    width: 90%;
+.info-box b {
+    color: #f3f4f6;
+    font-size: 1.1rem;
 }
 
-/* =============================== */
-/* TABLEAU H2H */
-/* =============================== */
+/* ======================================================
+   TABLEAU HISTORIQUE DES 29 MATCHS (H2H)
+   ===================================================== */
+#h2h-table {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    border: 1px solid #1f2937;
+}
 
 .h2h-table {
-    width: 80%;
-    margin: 20px auto;
+    width: 100%;
     border-collapse: collapse;
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-    overflow: hidden;
+    text-align: center;
+    background: #111827;
 }
 
 .h2h-table th {
-    background: rgba(255,255,255,0.15);
+    background: #1f2937;
+    color: #9ca3af;
+    font-weight: 600;
     padding: 12px;
-    font-size: 16px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
 }
 
 .h2h-table td {
-    padding: 10px;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 12px;
+    border-bottom: 1px solid #1f2937;
+    font-size: 0.95rem;
+    color: #e5e7eb;
 }
 
-.h2h-table tr:nth-child(even) {
-    background: rgba(255,255,255,0.03);
+.h2h-table tr:hover {
+    background: #1c2333;
 }
 
-/* =============================== */
-/* RESPONSIVE */
-/* =============================== */
+/* ======================================================
+   GRAPHIKES (CANVAS CHART.JS)
+   ===================================================== */
+canvas {
+    max-width: 100%;
+    margin-top: 15px;
+    background: rgba(31, 41, 55, 0.3);
+    border-radius: 8px;
+    padding: 15px;
+}
 
+/* ======================================================
+   ONGLET SPÉCIFIQUE : CALCULS & MÉTHODOLOGIE
+   ===================================================== */
+.section[data-section="calc"] .info-box {
+    margin-bottom: 15px;
+}
+
+.section[data-section="calc"] p {
+    text-align: left;
+    line-height: 1.6;
+    color: #d1d5db;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.section[data-section="calc"] ul {
+    text-align: left;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.section[data-section="calc"] li {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: #9ca3af;
+    line-height: 1.5;
+}
+
+.section[data-section="calc"] li b {
+    color: #ffffff;
+}
+
+/* Responsive ajustements */
 @media (max-width: 768px) {
-
-    .qt-card, .info-box {
-        width: 90%;
+    body {
+        padding: 10px;
     }
-
-    .h2h-table {
-        width: 95%;
+    header {
+        flex-direction: column;
+        gap: 15px;
     }
-
-    .team-logo {
-        width: 60px;
-        height: 60px;
+    h1 {
+        font-size: 1.4rem;
     }
-
-    .prob-box {
-        font-size: 18px;
+    .nav-buttons button {
+        font-size: 0.9rem;
+        padding: 10px;
     }
 }
