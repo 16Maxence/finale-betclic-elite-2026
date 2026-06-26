@@ -48,14 +48,20 @@
   ],
 
   "averages": {
-    "paris": {
-      "ppg": 86.1,
-      "opp_ppg": 92.0
-    },
-    "monaco": {
-      "ppg": 92.0,
-      "opp_ppg": 86.1
-    }
+      "paris": {
+        "ppg": 86.1,
+        "opp_ppg": 92.0,
+        "pct_2pts": 53.2,
+        "pct_3pts": 35.1,
+        "pct_lf": 77.4
+      },
+      "monaco": {
+        "ppg": 92.0,
+        "opp_ppg": 86.1,
+        "pct_2pts": 55.4,
+        "pct_3pts": 36.8,
+        "pct_lf": 79.2
+      }
   },
 
   "cumulative": {
