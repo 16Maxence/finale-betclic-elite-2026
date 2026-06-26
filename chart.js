@@ -16,7 +16,6 @@ function createGradient(ctx, color1, color2) {
 function renderProbChart(pred) {
     const canvas = document.getElementById("probChart");
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
 
     const labels = ["Avant match", "QT1", "QT2", "QT3", "QT4"];
@@ -79,7 +78,6 @@ function renderProbChart(pred) {
 function renderMonteCarloChart(pred) {
     const canvas = document.getElementById("mcChart");
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
     const mc = pred.montecarlo_h2h;
 
@@ -106,7 +104,6 @@ function renderMonteCarloChart(pred) {
 function renderMonteCarloDistribution(mcData) {
     const canvas = document.getElementById("mcDistChart");
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
 
     new Chart(ctx, {
@@ -136,7 +133,6 @@ function renderMonteCarloDistribution(mcData) {
 function renderH2HChart(h2h) {
     const canvas = document.getElementById("h2hChart");
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
 
     new Chart(ctx, {
@@ -161,12 +157,11 @@ function renderH2HChart(h2h) {
 }
 
 // ======================================================
-// 5. Graphique : Historique des scores
+// 5. Graphique : Historique des scores (line chart)
 // ======================================================
 function renderH2HHistory(h2h) {
     const canvas = document.getElementById("h2hHistoryChart");
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
 
     const labels = h2h.last_matches.map(m => m.date);
@@ -207,12 +202,11 @@ function renderH2HHistory(h2h) {
 }
 
 // ======================================================
-// 6. Graphique : Stats moyennes
+// 6. Graphique : Stats moyennes (bar chart)
 // ======================================================
 function renderH2HAverages(h2h) {
     const canvas = document.getElementById("h2hAvgChart");
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
 
     const labels = ["PPG", "Opp PPG", "%2pts", "%3pts", "Reb", "TO"];
@@ -265,12 +259,11 @@ function renderH2HAverages(h2h) {
 }
 
 // ======================================================
-// 7. Graphique : Cumul des victoires
+// 7. Graphique : Cumul des victoires (line chart)
 // ======================================================
 function renderH2HCumulative(h2h) {
     const canvas = document.getElementById("h2hCumulativeChart");
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
 
     new Chart(ctx, {
@@ -305,70 +298,11 @@ function renderH2HCumulative(h2h) {
 }
 
 // ======================================================
-// 8. Graphique : Radar comparatif
-// ======================================================
-function renderH2HRadar(h2h) {
-    const canvas = document.getElementById("h2hRadarChart");
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-
-    new Chart(ctx, {
-        type: "radar",
-        data: {
-            labels: ["PPG", "Opp PPG", "%2pts", "%3pts", "Reb", "TO"],
-            datasets: [
-                {
-                    label: "Paris",
-                    data: [
-                        h2h.averages.paris.ppg,
-                        h2h.averages.paris.opp_ppg,
-                        h2h.averages.paris.fg2_pct,
-                        h2h.averages.paris.fg3_pct,
-                        h2h.averages.paris.reb,
-                        h2h.averages.paris.to
-                    ],
-                    borderColor: "#00c3ff",
-                    backgroundColor: "rgba(0,195,255,0.25)",
-                    borderWidth: 2
-                },
-                {
-                    label: "Monaco",
-                    data: [
-                        h2h.averages.monaco.ppg,
-                        h2h.averages.monaco.opp_ppg,
-                        h2h.averages.monaco.fg2_pct,
-                        h2h.averages.monaco.fg3_pct,
-                        h2h.averages.monaco.reb,
-                        h2h.averages.monaco.to
-                    ],
-                    borderColor: "#ff004c",
-                    backgroundColor: "rgba(255,0,76,0.25)",
-                    borderWidth: 2
-                }
-            ]
-        },
-        options: {
-            plugins: { legend: { labels: { color: "white" } } },
-            scales: {
-                r: {
-                    angleLines: { color: "white" },
-                    grid: { color: "white" },
-                    pointLabels: { color: "white" },
-                    ticks: { color: "white" }
-                }
-            }
-        }
-    });
-}
-
-// ======================================================
-// 9. Graphique : Statistiques des 5 derniers matchs
+// 8. Graphique : Stats des 5 derniers matchs
 // ======================================================
 function renderStatsChart(stats) {
     const canvas = document.getElementById("statsChart");
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
 
     new Chart(ctx, {
