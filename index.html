@@ -75,15 +75,41 @@
     <section class="section" data-section="calc">
         <h2>Méthodologie Scientifique &amp; Calculs</h2>
         <div class="info-box">
-            <h3>1. Simulation de Monte-Carlo</h3>
-            <p>Le modèle prédictif s'appuie sur un algorithme stochastique basé sur la <b>Loi Normale</b>. Pour chaque confrontation simulée (10 000 itérations), un score aléatoire est modélisé selon la formule :</p>
-            <p style="text-align: center; font-family: monospace; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 6px; margin: 15px 0; color: #00c3ff;">
-                Score = Moyenne Historique + Ajustements + (Écart-Type × Z)
+            <h3>1. Simulation de Monte-Carlo &amp; Modélisation Stochastique</h3>
+            <p>Le modèle prédictif s'appuie sur la génération de variables aléatoires suivant une <b>Loi Normale</b> (ou distribution gaussienne $\mathcal{N}(\mu, \sigma^2)$). Pour chaque confrontation simulée ($10\,000$ itérations au total), un score indépendant est modélisé pour chaque équipe selon la formule :</p>
+            
+            <p style="text-align: center; font-family: monospace; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 6px; margin: 15px 0; color: #00c3ff; font-size: 1.1rem;">
+                Score = $\mu$ + ($\sigma \times Z$)
             </p>
+            
             <ul>
-                <li><b>Moyenne Historique (µ) :</b> Paris : 86.1 pts | Monaco : 92.0 pts.</li>
-                <li><b>Ajustements :</b> Avantage terrain Paris (+3.0 pts), malus effectif net Monaco (-1.0 pt).</li>
-                <li><b>Écart-Type (σ) :</b> Fixé à 8.0 points (volatilité standard au basket).</li>
+                <li><b>Moyenne Historique ($\mu$) :</b> Espérance mathématique basée sur les 29 rencontres réelles (Paris : $86.1$ pts | Monaco : $92.0$ pts).</li>
+                <li><b>Ajustements Contextuels :</b> Modification de la moyenne pour intégrer l'avantage du terrain de Paris ($+3.0$ pts) et le malus d'effectif net de Monaco ($-1.0$ pt due aux absences de D. Theis et M. Strazel, partiellement compensées par le retour de M. James). En clair :
+                    <br>&bull; $\mu_{\text{Paris}} = 86.1 + 3.0 = 89.1$ pts
+                    <br>&bull; $\mu_{\text{Monaco}} = 92.0 - 1.0 = 91.0$ pts
+                </li>
+                <li><b>Écart-Type ($\sigma$) :</b> Fixé de manière empirique à $8.0$ points, représentant l'indice de dispersion et la volatilité classique des scores au basketball.</li>
+                <li><b>Variable Aléatoire ($Z$) :</b> Générée selon une distribution normale centrée réduite $\mathcal{N}(0,1)$. Sa densité de probabilité suit la fonction de Gauss :
+                    $$f(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}$$
+                </li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>2. Calcul de la Probabilité Fréquentiste</h3>
+            <p>La probabilité de victoire finale affichée sur le dashboard n'est pas une simple formule statique, mais le résultat de la convergence de l'algorithme de Monte-Carlo (Loi des grands nombres). Elle est calculée en mesurant la fréquence relative des scénarios favorables :</p>
+            
+            $$P(\text{Victoire Paris}) = \frac{\sum_{i=1}^{N} \mathbb{I}(\text{Score}_{\text{Paris}, i} > \text{Score}_{\text{Monaco}, i})}{N}$$
+            
+            <p>Où $N = 10\,000$ et $\mathbb{I}$ est une fonction indicatrice valant $1$ si la condition est vraie (Paris gagne la simulation $i$), et $0$ sinon. Plus $N$ est grand, plus l'estimation converge avec précision vers la probabilité réelle induite par le différentiel des forces.</p>
+        </div>
+
+        <div class="info-box">
+            <h3>3. Probabilités en Direct (Live Win Probability)</h3>
+            <p>Le suivi dynamique par quart-temps repose sur une réévaluation bayésienne en temps réel articulée autour de deux variables fluctuantes :</p>
+            <ul>
+                <li><b>L'écart de score actuel ($E$) :</b> Traduit le rapport de force immédiat. Plus l'écart se creuse, plus la probabilité finale converge vers l'équipe menante.</li>
+                <li><b>Le temps restant à jouer ($T$) :</b> Agit comme un modificateur exponentiel de l'écart. Un avantage de $+5$ points au premier quart-temps (QT1) n'offre qu'un bonus marginal, tandis que ce même écart de $+5$ points à $1$ minute de la fin du match fait grimper mathématiquement la probabilité de victoire finale à plus de $95\%$.</li>
             </ul>
         </div>
     </section>
