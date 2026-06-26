@@ -22,7 +22,7 @@ async function init() {
     updateQT(appData.pred);
     updateMonteCarlo(appData.pred);
     updateH2HGlobal(appData.h2h);
-    updateH2HTable(appData.h2h); // Affiche les 29 rencontres
+    updateH2HTable(appData.h2h);
     updateStats(appData.stats);
     updateInjuries(appData.injuries);
 
@@ -57,6 +57,9 @@ function updateMonteCarlo(pred) {
         </div>`;
 }
 
+// ======================================================
+// HISTORIQUE GLOBAL ET TABLEAUX
+// ======================================================
 function updateH2HGlobal(h2h) {
     const g = h2h.global;
     document.getElementById("h2h-global").innerHTML = `
@@ -82,7 +85,6 @@ function updateH2HTable(h2h) {
             </tr>
     `;
 
-    // Parcourt et affiche l'ensemble complet des 29 rencontres du JSON
     h2h.last_matches.forEach(m => {
         html += `
             <tr>
@@ -129,28 +131,24 @@ function updateInjuries(inj) {
 }
 
 // ======================================================
-// GESTION DES ONGLETS ET RENDU DES GRAPHIKES
+// GESTION DES ONGLETS
 // ======================================================
 function showSection(name) {
-    // 1. Masquer les sections et désactiver les boutons
     document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
     document.querySelectorAll(".nav-buttons button").forEach(btn => btn.classList.remove("active"));
 
-    // 2. Afficher la section demandée
     const targetSection = document.querySelector(`[data-section="${name}"]`);
     if (targetSection) targetSection.classList.add("active");
 
     const targetBtn = document.querySelector(`.nav-buttons button[onclick="showSection('${name}')"]`);
     if (targetBtn) targetBtn.classList.add("active");
 
-    // 3. Déclencher le rendu des graphiques UNIQUEMENT quand la section devient visible (évite le bug 0x0px)
     if (name === "prob" && !renderedCharts["prob"]) {
         renderProbChart(appData.pred);
         renderedCharts["prob"] = true;
     } 
     else if (name === "mc" && !renderedCharts["mc"]) {
         renderMonteCarloChart(appData.pred);
-        renderMonteCarloDistribution(appData.pred.montecarlo_h2h);
         renderedCharts["mc"] = true;
     } 
     else if (name === "h2h" && !renderedCharts["h2h"]) {
@@ -163,8 +161,5 @@ function showSection(name) {
     else if (name === "stats" && !renderedCharts["stats"]) {
         renderStatsChart(appData.stats);
         renderedCharts["stats"] = true;
-    }
-    else if (name === "calc") {
-        // Section textuelle pure pour l'onglet Calculs, aucun rendu Chart.js n'est requis
     }
 }
