@@ -4,29 +4,24 @@
     <meta charset="UTF-8">
     <title>Paris vs Monaco — Dashboard</title>
 
-    <!-- STYLE -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- CHART.JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <!-- HEADER -->
     <header>
         <img src="img/paris.png" class="team-logo">
         <h1>Paris vs Monaco — Dashboard</h1>
         <img src="img/monaco.png" class="team-logo">
     </header>
 
-    <!-- PROBABILITÉS HEADER -->
     <div class="header-prob">
         <div class="prob-box paris">Paris <span id="header-paris-prob"></span></div>
         <div class="prob-box monaco">Monaco <span id="header-monaco-prob"></span></div>
     </div>
 
-    <!-- NAVIGATION -->
     <div class="nav-buttons">
         <button onclick="showSection('prob')">Probabilités</button>
         <button onclick="showSection('mc')">Monte-Carlo</button>
@@ -35,10 +30,7 @@
         <button onclick="showSection('inj')">Blessures</button>
     </div>
 
-    <!-- ============================= -->
-    <!-- SECTION : PROBABILITÉS -->
-    <!-- ============================= -->
-    <section class="section" data-section="prob">
+    <section class="section active" data-section="prob">
 
         <h2>Probabilités par quart-temps</h2>
 
@@ -51,9 +43,6 @@
         <canvas id="probChart"></canvas>
     </section>
 
-    <!-- ============================= -->
-    <!-- SECTION : MONTE-CARLO -->
-    <!-- ============================= -->
     <section class="section" data-section="mc">
 
         <h2>Monte-Carlo</h2>
@@ -68,41 +57,29 @@
 
     </section>
 
-    <!-- ============================= -->
-    <!-- SECTION : H2H -->
-    <!-- ============================= -->
     <section class="section" data-section="h2h">
 
         <h2>Face-à-face (H2H)</h2>
 
-        <!-- Résumé global -->
         <div id="h2h-global"></div>
 
-        <!-- Tableau des derniers matchs -->
         <h3>Derniers matchs</h3>
         <div id="h2h-table"></div>
 
-        <!-- Graphique 1 : Historique des scores -->
         <h3>Historique des scores</h3>
         <canvas id="h2hHistoryChart"></canvas>
 
-        <!-- Graphique 2 : Stats moyennes -->
         <h3>Stats moyennes</h3>
         <canvas id="h2hAvgChart"></canvas>
 
-        <!-- Graphique 3 : Radar comparatif -->
         <h3>Profil comparatif</h3>
         <canvas id="h2hRadarChart"></canvas>
 
-        <!-- Graphique 4 : Cumul des victoires -->
         <h3>Cumul des victoires</h3>
         <canvas id="h2hCumulativeChart"></canvas>
 
     </section>
 
-    <!-- ============================= -->
-    <!-- SECTION : STATS -->
-    <!-- ============================= -->
     <section class="section" data-section="stats">
 
         <h2>Stats récentes</h2>
@@ -113,9 +90,6 @@
 
     </section>
 
-    <!-- ============================= -->
-    <!-- SECTION : BLESSURES -->
-    <!-- ============================= -->
     <section class="section" data-section="inj">
 
         <h2>Blessures</h2>
@@ -124,9 +98,8 @@
 
     </section>
 
-    <!-- SCRIPTS -->
-    <script src="chart.js"></script>
-    <script src="app.js"></script>
+    <script src="chart.js" defer></script>
+    <script src="app.js" defer></script>
 
 </body>
 </html>
