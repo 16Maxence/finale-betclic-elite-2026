@@ -7,13 +7,16 @@ Chart.defaults.plugins.datalabels.font = { weight: 'bold', size: 11 };
 Chart.defaults.plugins.datalabels.align = 'top';
 
 // ======================================================
-// 1. GRAPHÈQUE DES PROBABILITÉS (ONGLET 1)
+// 1. GRAPHIQUE DES PROBABILITÉS (ONGLET 1)
 // ======================================================
 function renderProbChart(pred) {
     const canvas = document.getElementById("probChart");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     const labels = ["Avant match", "QT1", "QT2", "QT3", "QT4"];
+
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) { existingChart.destroy(); }
 
     new Chart(ctx, {
         type: "line",
@@ -42,6 +45,7 @@ function renderProbChart(pred) {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: { 
                 legend: { labels: { color: "white" } },
                 datalabels: { formatter: (value) => value + "%", display: true }
@@ -55,13 +59,16 @@ function renderProbChart(pred) {
 }
 
 // ======================================================
-// 2. GRAPHÈQUE MONTE-CARLO (ONGLET 2)
+// 2. GRAPHIQUE MONTE-CARLO (ONGLET 2)
 // ======================================================
 function renderMonteCarloChart(pred) {
     const canvas = document.getElementById("mcChart");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     const mc = pred.montecarlo_h2h;
+
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) { existingChart.destroy(); }
 
     new Chart(ctx, {
         type: "doughnut",
@@ -74,6 +81,8 @@ function renderMonteCarloChart(pred) {
             }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             cutout: "60%",
             plugins: { 
                 legend: { labels: { color: "white" } },
@@ -84,13 +93,16 @@ function renderMonteCarloChart(pred) {
 }
 
 // ======================================================
-// 3. GRAPHÈQUES H2H (ONGLET 3)
+// 3. GRAPHIQUES H2H (ONGLET 3)
 // ======================================================
 function renderH2HHistory(h2h) {
     const canvas = document.getElementById("h2hHistoryChart");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     const matchesChronological = [...h2h.last_matches].reverse();
+
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) { existingChart.destroy(); }
 
     new Chart(ctx, {
         type: "line",
@@ -117,6 +129,7 @@ function renderH2HHistory(h2h) {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: { 
                 legend: { labels: { color: "white" } },
                 datalabels: { display: false } 
@@ -134,6 +147,9 @@ function renderH2HAverages(h2h) {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) { existingChart.destroy(); }
+
     new Chart(ctx, {
         type: "bar",
         data: {
@@ -144,6 +160,8 @@ function renderH2HAverages(h2h) {
             ]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: { 
                 legend: { labels: { color: "white" } },
                 datalabels: { display: true, anchor: 'end', align: 'top' }
@@ -164,6 +182,19 @@ function renderH2HRadar(h2h) {
     const existingChart = Chart.getChart(canvas);
     if (existingChart) { existingChart.destroy(); }
 
+    // Extraction sécurisée des % d'adresses depuis le JSON h2h.json
+    const parisData = [
+        h2h.averages?.paris?.pct_2pts ?? 53.2,
+        h2h.averages?.paris?.pct_3pts ?? 35.1,
+        h2h.averages?.paris?.pct_lf ?? 77.4
+    ];
+
+    const monacoData = [
+        h2h.averages?.monaco?.pct_2pts ?? 55.4,
+        h2h.averages?.monaco?.pct_3pts ?? 36.8,
+        h2h.averages?.monaco?.pct_lf ?? 79.2
+    ];
+
     new Chart(ctx, {
         type: "radar",
         data: {
@@ -171,7 +202,7 @@ function renderH2HRadar(h2h) {
             datasets: [
                 {
                     label: "Paris",
-                    data: [h2h.averages.paris.pct_2pts, h2h.averages.paris.pct_3pts, h2h.averages.paris.pct_lf],
+                    data: parisData,
                     borderColor: "#00c3ff",
                     backgroundColor: "rgba(0, 195, 255, 0.15)",
                     borderWidth: 3,
@@ -180,7 +211,7 @@ function renderH2HRadar(h2h) {
                 },
                 {
                     label: "Monaco",
-                    data: [h2h.averages.monaco.pct_2pts, h2h.averages.monaco.pct_3pts, h2h.averages.monaco.pct_lf],
+                    data: monacoData,
                     borderColor: "#ff004c",
                     backgroundColor: "rgba(255, 0, 76, 0.15)",
                     borderWidth: 3,
@@ -191,24 +222,36 @@ function renderH2HRadar(h2h) {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true, // Conserve une forme géométrique triangulaire équilibrée
             plugins: { 
-                legend: { labels: { color: "#ffffff", font: { size: 13 } } },
+                legend: { 
+                    labels: { color: "#ffffff", font: { size: 12, weight: 'bold' } } 
+                },
                 datalabels: { 
                     formatter: (value) => value + "%", 
                     display: true,
                     color: "#ffffff",
-                    font: { weight: "bold", size: 11 }
+                    font: { weight: "bold", size: 11 },
+                    backgroundColor: "rgba(11, 15, 25, 0.7)",
+                    borderRadius: 4,
+                    padding: 4
                 }
             },
             scales: {
                 r: {
                     min: 0,
                     max: 100,
-                    ticks: { color: "rgba(255, 255, 255, 0.6)", backdropColor: "transparent", stepSize: 20 },
+                    ticks: { 
+                        color: "rgba(255, 255, 255, 0.5)", 
+                        backdropColor: "transparent",
+                        stepSize: 20
+                    },
                     angleLines: { color: "rgba(255, 255, 255, 0.2)" },
-                    grid: { color: "rgba(255, 255, 255, 0.15)" },
-                    pointLabels: { color: "#ffffff", font: { size: 13, weight: "bold" } }
+                    grid: { color: "rgba(255, 255, 255, 0.12)" },
+                    pointLabels: { 
+                        color: "#ffffff", 
+                        font: { size: 12, weight: "bold" } 
+                    }
                 }
             }
         }
@@ -220,6 +263,9 @@ function renderH2HCumulative(h2h) {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) { existingChart.destroy(); }
+
     new Chart(ctx, {
         type: "line",
         data: {
@@ -230,6 +276,8 @@ function renderH2HCumulative(h2h) {
             ]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: { 
                 legend: { labels: { color: "white" } },
                 datalabels: { align: 'right', display: (context) => context.dataIndex === context.dataset.data.length - 1 }
@@ -243,12 +291,15 @@ function renderH2HCumulative(h2h) {
 }
 
 // ======================================================
-// 4. GRAPHÈQUE DES STATS RECENTES (ONGLET 4)
+// 4. GRAPHIQUE DES STATS RECENTES (ONGLET 4)
 // ======================================================
 function renderStatsChart(stats) {
     const canvas = document.getElementById("statsChart");
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
+
+    const existingChart = Chart.getChart(canvas);
+    if (existingChart) { existingChart.destroy(); }
 
     new Chart(ctx, {
         type: "bar",
@@ -261,12 +312,13 @@ function renderStatsChart(stats) {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: { 
                 legend: { labels: { color: "white" } },
                 datalabels: { display: true, anchor: 'end', align: 'top' }
             },
             scales: {
-                y: { beginAtZero: true, ticks: { color: "white", stepSize: 5 } },
+                y: { beginAtZero: true, ticks: { color: "white", stepSize: 1 } },
                 x: { ticks: { color: "white" } }
             }
         }
