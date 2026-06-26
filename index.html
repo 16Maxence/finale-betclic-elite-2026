@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Finale Betclic Elite 2026 (Match décisif) - Paris vs Monaco</title>
-
     <link rel="stylesheet" href="style.css">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
-
 <body>
 
     <header>
         <img src="img/paris.png" class="team-logo">
-        <h1>Paris vs Monaco — Dashboard</h1>
+        <h1>Finale Betclic Elite 2026 (Match décisif) - Paris vs Monaco</h1>
         <img src="img/monaco.png" class="team-logo">
     </header>
 
@@ -33,102 +31,64 @@
 
     <section class="section active" data-section="prob">
         <h2>Probabilités par quart-temps</h2>
-
         <div id="before_match"></div>
         <div id="after_q1"></div>
         <div id="after_q2"></div>
         <div id="after_q3"></div>
         <div id="after_q4"></div>
-
         <canvas id="probChart"></canvas>
     </section>
 
     <section class="section" data-section="mc">
         <h2>Monte-Carlo</h2>
-
         <div id="mc-result"></div>
-
         <h3>Répartition des victoires</h3>
         <canvas id="mcChart"></canvas>
-
-        <h3>Histogramme</h3>
-        <canvas id="mcDistChart"></canvas>
     </section>
 
     <section class="section" data-section="h2h">
         <h2>Face-à-face (H2H)</h2>
-
         <div id="h2h-global"></div>
-
         <h3>Derniers matchs</h3>
         <div id="h2h-table"></div>
-
         <h3>Historique des scores</h3>
         <canvas id="h2hHistoryChart"></canvas>
-
         <h3>Stats moyennes</h3>
         <canvas id="h2hAvgChart"></canvas>
-
-        <h3>Profil comparatif</h3>
+        <h3>Profil comparatif (% Adresses)</h3>
         <canvas id="h2hRadarChart"></canvas>
-
         <h3>Cumul des victoires</h3>
         <canvas id="h2hCumulativeChart"></canvas>
     </section>
 
     <section class="section" data-section="stats">
         <h2>Stats récentes</h2>
-
         <div id="stats-compare"></div>
-
         <canvas id="statsChart"></canvas>
     </section>
 
     <section class="section" data-section="inj">
         <h2>Blessures</h2>
-
         <div id="injuries"></div>
     </section>
 
-    <!-- NOUVELLE SECTION CALCULS & MÉTHODOLOGIE -->
     <section class="section" data-section="calc">
         <h2>Méthodologie Scientifique &amp; Calculs</h2>
-
         <div class="info-box">
             <h3>1. Simulation de Monte-Carlo</h3>
-            <p>Le modèle prédictif s'appuie sur un algorithme stochastique basé sur la <b>Loi Normale (Courbe de Gauss)</b>. Pour chaque confrontation simulée (10 000 itérations au total), un score aléatoire et indépendant est modélisé pour chaque équipe selon la formule mathématique :</p>
+            <p>Le modèle prédictif s'appuie sur un algorithme stochastique basé sur la <b>Loi Normale</b>. Pour chaque confrontation simulée (10 000 itérations), un score aléatoire est modélisé selon la formule :</p>
             <p style="text-align: center; font-family: monospace; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 6px; margin: 15px 0; color: #00c3ff;">
                 Score = Moyenne Historique + Ajustements + (Écart-Type × Z)
             </p>
             <ul>
-                <li><b>Moyenne Historique (µ) :</b> Évaluée sur la base des 29 rencontres réelles (Paris : 86.1 pts | Monaco : 92.0 pts).</li>
-                <li><b>Ajustements Contextuels :</b> Intégration d'un bonus d'avantage du terrain pour Paris (+3.0 pts) balancé par un malus d'effectif net pour Monaco (-1.0 pt) lié aux absences combinées de D. Theis et M. Strazel malgré le retour de M. James.</li>
-                <li><b>Écart-Type (σ) :</b> Fixé de manière empirique à 8.0 points, ce qui correspond à la volatilité et la dispersion classique des performances offensives en basketball de haut niveau.</li>
-                <li><b>Z :</b> Variable aléatoire générée suivant une distribution normale centrée réduite N(0,1).</li>
-            </ul>
-        </div>
-
-        <div class="info-box">
-            <h3>2. Probabilités en Direct (Live Win Probability)</h3>
-            <p>Le suivi dynamique des probabilités par quart-temps repose sur une réévaluation bayésienne en temps réel articulée autour de deux variables clés :</p>
-            <ul>
-                <li><b>L'écart de score actuel (E) :</b> Traduit le rapport de force immédiat sur le terrain. Plus l'écart se creuse, plus la probabilité finale converge vers l'équipe menante.</li>
-                <li><b>Le temps restant à jouer (T) :</b> Agit comme un multiplicateur exponentiel de l'écart. Un avantage de +5 points à la fin du premier quart-temps (QT1) n'offre qu'un bonus marginal de probabilité, tandis que ce même écart de +5 points à 1 minute de la fin du match fait grimper mathématiquement la probabilité de victoire finale à plus de 95%.</li>
-            </ul>
-        </div>
-
-        <div class="info-box">
-            <h3>3. Statistiques Descriptives</h3>
-            <p>Les indicateurs de volume et d'efficacité compilés dans les sections <i>Stats</i> et <i>H2H</i> utilisent les principes de la moyenne arithmétique simple sur la totalité de l'échantillon des 29 matchs :</p>
-            <ul>
-                <li><b>PPG (Points Per Game) :</b> Somme cumulée de l'ensemble des points inscrits par l'équipe, divisée par le nombre total de confrontations ($n = 29$).</li>
-                <li><b>Opp PPG (Opponent Points Per Game) :</b> Somme cumulée de l'ensemble des points concédés à l'adversaire sur ces mêmes rencontres, divisée par 29.</li>
+                <li><b>Moyenne Historique (µ) :</b> Paris : 86.1 pts | Monaco : 92.0 pts.</li>
+                <li><b>Ajustements :</b> Avantage terrain Paris (+3.0 pts), malus effectif net Monaco (-1.0 pt).</li>
+                <li><b>Écart-Type (σ) :</b> Fixé à 8.0 points (volatilité standard au basket).</li>
             </ul>
         </div>
     </section>
 
     <script src="chart.js" defer></script>
     <script src="app.js" defer></script>
-
 </body>
 </html>
