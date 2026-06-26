@@ -30,12 +30,12 @@ async function init() {
     // H2H
     updateH2HGlobal(h2h);
     updateH2HTable(h2h);
+
+    // ⚠️ IMPORTANT : maintenant que le canvas existe, on peut dessiner
     renderH2HChart(h2h);
     renderH2HHistory(h2h);
     renderH2HAverages(h2h);
     renderH2HCumulative(h2h);
-
-    // RADAR H2H
     renderH2HRadar(h2h);
 
     // STATS
@@ -147,84 +147,6 @@ function updateH2HTable(h2h) {
 
     html += `</table>`;
     container.innerHTML = html;
-}
-
-// ======================================================
-// RADAR H2H
-// ======================================================
-function renderH2HRadar(h2h) {
-    const canvas = document.getElementById("h2hRadarChart");
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-
-    new Chart(ctx, {
-        type: "radar",
-        data: {
-            labels: ["PPG", "Opp PPG", "%2pts", "%3pts", "Reb", "TO"],
-            datasets: [
-                {
-                    label: "Paris",
-                    data: [
-                        h2h.averages.paris.ppg,
-                        h2h.averages.paris.opp_ppg,
-                        h2h.averages.paris.fg2_pct,
-                        h2h.averages.paris.fg3_pct,
-                        h2h.averages.paris.reb,
-                        h2h.averages.paris.to
-                    ],
-                    borderColor: "#00c3ff",
-                    backgroundColor: "rgba(0,195,255,0.25)",
-                    borderWidth: 2
-                },
-                {
-                    label: "Monaco",
-                    data: [
-                        h2h.averages.monaco.ppg,
-                        h2h.averages.monaco.opp_ppg,
-                        h2h.averages.monaco.fg2_pct,
-                        h2h.averages.monaco.fg3_pct,
-                        h2h.averages.monaco.reb,
-                        h2h.averages.monaco.to
-                    ],
-                    borderColor: "#ff004c",
-                    backgroundColor: "rgba(255,0,76,0.25)",
-                    borderWidth: 2
-                }
-            ]
-        },
-        options: {
-            plugins: { legend: { labels: { color: "white" } } },
-            scales: {
-                r: {
-                    angleLines: { color: "white" },
-                    grid: { color: "white" },
-                    pointLabels: { color: "white" }
-                }
-            }
-        }
-    });
-}
-
-// ======================================================
-// STATS
-// ======================================================
-function updateStats(stats) {
-    document.getElementById("stats-compare").innerHTML = `
-        <div class="info-box">
-            <b>Paris — 5 derniers matchs</b><br>
-            ${stats.paris_last5.wins}V - ${stats.paris_last5.losses}D<br>
-            Pts marqués : ${stats.paris_last5.ppg}<br>
-            Pts encaissés : ${stats.paris_last5.opp_ppg}
-        </div>
-
-        <div class="info-box">
-            <b>Monaco — 5 derniers matchs</b><br>
-            ${stats.monaco_last5.wins}V - ${stats.monaco_last5.losses}D<br>
-            Pts marqués : ${stats.monaco_last5.ppg}<br>
-            Pts encaissés : ${stats.monaco_last5.opp_ppg}
-        </div>
-    `;
 }
 
 // ======================================================
