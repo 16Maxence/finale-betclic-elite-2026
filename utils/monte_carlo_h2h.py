@@ -4,12 +4,13 @@ def monte_carlo_h2h(paris_ppg: float, monaco_ppg: float, simulations: int = 1000
     paris_wins = 0
     monaco_wins = 0
 
-    # Match 5 décisif à Paris : on ajoute un avantage du terrain (+3 points pour Paris)
+    # Match 5 décisif à Paris : Avantage du terrain (+3 points pour Paris)
     avantage_terrain_paris = 3.0
     paris_base_rating = paris_ppg + avantage_terrain_paris
     
-    # Monaco récupère Mike James mais perd Strazel, on garde leur moyenne stable
-    monaco_base_rating = monaco_ppg 
+    # Monaco : Retour de Mike James (+2) mais absences de Strazel et Theis (-3), soit un léger malus net de -1 point
+    malus_effectif_monaco = -1.0
+    monaco_base_rating = monaco_ppg + malus_effectif_monaco 
 
     for _ in range(simulations):
         paris_simulated_score = random.gauss(paris_base_rating, 8)
@@ -27,13 +28,10 @@ def monte_carlo_h2h(paris_ppg: float, monaco_ppg: float, simulations: int = 1000
     paris_prob = round((paris_wins / simulations) * 100)
     monaco_prob = 100 - paris_prob
 
-    return {
-        "paris": paris_prob,
-        "monaco": monaco_prob
-    }
+    return {"paris": paris_prob, "monaco": monaco_prob}
 
 if __name__ == "__main__":
-    # Exécutez ce code pour obtenir vos pourcentages exacts
+    # Moyennes historiques des 29 matchs
     res = monte_carlo_h2h(86.1, 92.0, simulations=10000)
-    print("--- RÉSULTATS À COPIER DANS PREDICTIONS.JSON ---")
+    print("--- NOUVEAUX RÉSULTATS (THEIS BLESSÉ CHEZ MONACO) ---")
     print(res)
