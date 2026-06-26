@@ -1,22 +1,25 @@
 import random
 
-def monte_carlo_h2h(paris_rating: float, monaco_rating: float, simulations: int = 10000) -> dict:
-    """
-    Simule un H2H Paris vs Monaco avec Monte-Carlo.
-    paris_rating / monaco_rating : typiquement les probas avant match (ou un rating Elo, etc.)
-    simulations : nombre de matchs simulés.
-    Retourne un dict avec % de victoire Paris / Monaco.
-    """
-
+def monte_carlo_h2h(paris_ppg: float, monaco_ppg: float, simulations: int = 10000) -> dict:
     paris_wins = 0
     monaco_wins = 0
 
-    for _ in range(simulations):
-        # On simule un "score" autour du rating
-        paris_score = random.gauss(paris_rating, 8)
-        monaco_score = random.gauss(monaco_rating, 8)
+    # Match 5 décisif à Paris : on ajoute un avantage du terrain (+3 points pour Paris)
+    avantage_terrain_paris = 3.0
+    paris_base_rating = paris_ppg + avantage_terrain_paris
+    
+    # Monaco récupère Mike James mais perd Strazel, on garde leur moyenne stable
+    monaco_base_rating = monaco_ppg 
 
-        if paris_score > monaco_score:
+    for _ in range(simulations):
+        paris_simulated_score = random.gauss(paris_base_rating, 8)
+        monaco_simulated_score = random.gauss(monaco_base_rating, 8)
+
+        if abs(paris_simulated_score - monaco_simulated_score) < 0.1:
+            paris_simulated_score += random.uniform(1, 5)
+            monaco_simulated_score += random.uniform(1, 5)
+
+        if paris_simulated_score > monaco_simulated_score:
             paris_wins += 1
         else:
             monaco_wins += 1
@@ -29,8 +32,8 @@ def monte_carlo_h2h(paris_rating: float, monaco_rating: float, simulations: int 
         "monaco": monaco_prob
     }
 
-
 if __name__ == "__main__":
-    # Petit test rapide
-    res = monte_carlo_h2h(56, 44, simulations=10000)
-    print("Monte-Carlo H2H test :", res)
+    # Exécutez ce code pour obtenir vos pourcentages exacts
+    res = monte_carlo_h2h(86.1, 92.0, simulations=10000)
+    print("--- RÉSULTATS À COPIER DANS PREDICTIONS.JSON ---")
+    print(res)
