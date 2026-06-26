@@ -14,7 +14,10 @@ function createGradient(ctx, color1, color2) {
 // 1. Graphique : Évolution des probabilités QT
 // ======================================================
 function renderProbChart(pred) {
-    const ctx = document.getElementById("probChart").getContext("2d");
+    const canvas = document.getElementById("probChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
 
     const labels = ["Avant match", "QT1", "QT2", "QT3", "QT4"];
 
@@ -74,7 +77,10 @@ function renderProbChart(pred) {
 // 2. Graphique : Donut Monte‑Carlo H2H
 // ======================================================
 function renderMonteCarloChart(pred) {
-    const ctx = document.getElementById("mcChart").getContext("2d");
+    const canvas = document.getElementById("mcChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
     const mc = pred.montecarlo_h2h;
 
     new Chart(ctx, {
@@ -128,7 +134,10 @@ function renderMonteCarloDistribution(mcData) {
 // 4. Graphique : H2H global (barres)
 // ======================================================
 function renderH2HChart(h2h) {
-    const ctx = document.getElementById("h2hChart").getContext("2d");
+    const canvas = document.getElementById("h2hChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
 
     new Chart(ctx, {
         type: "bar",
@@ -152,7 +161,7 @@ function renderH2HChart(h2h) {
 }
 
 // ======================================================
-// 5. Graphique : Historique des scores (line chart)
+// 5. Graphique : Historique des scores
 // ======================================================
 function renderH2HHistory(h2h) {
     const canvas = document.getElementById("h2hHistoryChart");
@@ -198,7 +207,7 @@ function renderH2HHistory(h2h) {
 }
 
 // ======================================================
-// 6. Graphique : Stats moyennes (bar chart)
+// 6. Graphique : Stats moyennes
 // ======================================================
 function renderH2HAverages(h2h) {
     const canvas = document.getElementById("h2hAvgChart");
@@ -256,7 +265,7 @@ function renderH2HAverages(h2h) {
 }
 
 // ======================================================
-// 7. Graphique : Cumul des victoires (line chart)
+// 7. Graphique : Cumul des victoires
 // ======================================================
 function renderH2HCumulative(h2h) {
     const canvas = document.getElementById("h2hCumulativeChart");
