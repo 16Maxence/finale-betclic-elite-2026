@@ -105,34 +105,40 @@ function renderH2HHistory(h2h) {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
+    // Inverser l'ordre pour afficher chronologiquement du plus ancien au plus récent sur le graphique
+    const matchesChronological = [...h2h.last_matches].reverse();
+
     new Chart(ctx, {
         type: "line",
         data: {
-            labels: h2h.last_matches.map(m => m.date),
+            labels: matchesChronological.map(m => m.date),
             datasets: [
                 {
                     label: "Paris",
-                    data: h2h.last_matches.map(m => m.paris),
+                    data: matchesChronological.map(m => m.paris),
                     borderColor: "#00c3ff",
-                    backgroundColor: "rgba(0,195,255,0.25)",
-                    borderWidth: 3,
-                    tension: 0.3
+                    backgroundColor: "rgba(0,195,255,0.05)",
+                    borderWidth: 2,
+                    tension: 0.2,
+                    pointRadius: 2
                 },
                 {
                     label: "Monaco",
-                    data: h2h.last_matches.map(m => m.monaco),
+                    data: matchesChronological.map(m => m.monaco),
                     borderColor: "#ff004c",
-                    backgroundColor: "rgba(255,0,76,0.25)",
-                    borderWidth: 3,
-                    tension: 0.3
+                    backgroundColor: "rgba(255,0,76,0.05)",
+                    borderWidth: 2,
+                    tension: 0.2,
+                    pointRadius: 2
                 }
             ]
         },
         options: {
+            responsive: true,
             plugins: { legend: { labels: { color: "white" } } },
             scales: {
                 y: { ticks: { color: "white" } },
-                x: { ticks: { color: "white" } }
+                x: { ticks: { color: "white", display: false } } // Masqué pour éviter la surcharge des 29 dates textuelles
             }
         }
     });
@@ -146,17 +152,17 @@ function renderH2HAverages(h2h) {
     new Chart(ctx, {
         type: "bar",
         data: {
-            labels: ["PPG", "Opp PPG", "%2pts", "%3pts", "Reb", "TO"],
+            labels: ["Points marqués (PPG)", "Points encaissés (Opp PPG)"],
             datasets: [
                 {
                     label: "Paris",
-                    data: [h2h.averages.paris.ppg, h2h.averages.paris.opp_ppg, h2h.averages.paris.fg2_pct, h2h.averages.paris.fg3_pct, h2h.averages.paris.reb, h2h.averages.paris.to],
+                    data: [h2h.averages.paris.ppg, h2h.averages.paris.opp_ppg],
                     backgroundColor: "#00c3ff",
                     borderRadius: 6
                 },
                 {
                     label: "Monaco",
-                    data: [h2h.averages.monaco.ppg, h2h.averages.monaco.opp_ppg, h2h.averages.monaco.fg2_pct, h2h.averages.monaco.fg3_pct, h2h.averages.monaco.reb, h2h.averages.monaco.to],
+                    data: [h2h.averages.monaco.ppg, h2h.averages.monaco.opp_ppg],
                     backgroundColor: "#ff004c",
                     borderRadius: 6
                 }
@@ -180,18 +186,18 @@ function renderH2HRadar(h2h) {
     new Chart(ctx, {
         type: "radar",
         data: {
-            labels: ["PPG", "Opp PPG", "%2pts", "%3pts", "Reb", "TO"],
+            labels: ["Points Marqués", "Points Encaissés"],
             datasets: [
                 {
                     label: "Paris",
-                    data: [h2h.averages.paris.ppg, h2h.averages.paris.opp_ppg, h2h.averages.paris.fg2_pct, h2h.averages.paris.fg3_pct, h2h.averages.paris.reb, h2h.averages.paris.to],
+                    data: [h2h.averages.paris.ppg, h2h.averages.paris.opp_ppg],
                     borderColor: "#00c3ff",
                     backgroundColor: "rgba(0,195,255,0.25)",
                     borderWidth: 2
                 },
                 {
                     label: "Monaco",
-                    data: [h2h.averages.monaco.ppg, h2h.averages.monaco.opp_ppg, h2h.averages.monaco.fg2_pct, h2h.averages.monaco.fg3_pct, h2h.averages.monaco.reb, h2h.averages.monaco.to],
+                    data: [h2h.averages.monaco.ppg, h2h.averages.monaco.opp_ppg],
                     borderColor: "#ff004c",
                     backgroundColor: "rgba(255,0,76,0.25)",
                     borderWidth: 2
@@ -204,7 +210,8 @@ function renderH2HRadar(h2h) {
                 r: {
                     angleLines: { color: "white" },
                     grid: { color: "white" },
-                    pointLabels: { color: "white" }
+                    pointLabels: { color: "white" },
+                    ticks: { color: "white", backdropColor: "transparent" }
                 }
             }
         }
@@ -221,15 +228,15 @@ function renderH2HCumulative(h2h) {
         data: {
             labels: h2h.cumulative.labels,
             datasets: [
-                { label: "Paris", data: h2h.cumulative.paris, borderColor: "#00c3ff", borderWidth: 3, tension: 0.3 },
-                { label: "Monaco", data: h2h.cumulative.monaco, borderColor: "#ff004c", borderWidth: 3, tension: 0.3 }
+                { label: "Paris", data: h2h.cumulative.paris, borderColor: "#00c3ff", borderWidth: 3, tension: 0.1, pointRadius: 2 },
+                { label: "Monaco", data: h2h.cumulative.monaco, borderColor: "#ff004c", borderWidth: 3, tension: 0.1, pointRadius: 2 }
             ]
         },
         options: {
             plugins: { legend: { labels: { color: "white" } } },
             scales: {
                 y: { ticks: { color: "white" } },
-                x: { ticks: { color: "white" } }
+                x: { ticks: { color: "white", display: false } }
             }
         }
     });
