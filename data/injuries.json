@@ -1,10 +1,10 @@
 {
-  "monaco": {
-    "out": ["Strazel", "Daniel Theis"],
-    "in": ["Mike James"]
-  },
   "paris": {
     "out": [],
     "in": []
+  },
+  "monaco": {
+    "out": ["Matthew Strazel (suspendu)", "Daniel Theis (blessé)"],
+    "in": ["Mike James"]
   }
 }
