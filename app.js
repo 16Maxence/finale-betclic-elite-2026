@@ -26,15 +26,15 @@ async function init() {
     updateQT(appData.pred);
     updateMonteCarlo(appData.pred);
     updateH2HGlobal(appData.h2h);
-    updateH2HTable(appData.h2h);
+    updateH2HTable(appData.h2h); // Affiche toutes les rencontres du JSON
     updateStats(appData.stats);
     updateInjuries(appData.injuries);
 
-    // On affiche la section par défaut (qui va générer le premier graphique)
+    // On affiche la section par défaut (qui va générer le premier graphique visible)
     showSection("prob");
 }
 
-// Lancement automatique au chargement
+// Lancement automatique au chargement du DOM
 window.addEventListener("DOMContentLoaded", init);
 
 // ======================================================
@@ -77,10 +77,29 @@ function updateH2HGlobal(h2h) {
 function updateH2HTable(h2h) {
     const container = document.getElementById("h2h-table");
     if (!container) return;
-    let html = `<table class="h2h-table"><tr><th>Date</th><th>Paris</th><th>Monaco</th><th>Salle</th></tr>`;
+
+    let html = `
+        <table class="h2h-table">
+            <tr>
+                <th>Date</th>
+                <th>Paris</th>
+                <th>Monaco</th>
+                <th>Salle</th>
+            </tr>
+    `;
+
+    // Parcourt et affiche TOUTES les rencontres disponibles dans le fichier JSON
     h2h.last_matches.forEach(m => {
-        html += `<tr><td>${m.date}</td><td>${m.paris}</td><td>${m.monaco}</td><td>${m.arena}</td></tr>`;
+        html += `
+            <tr>
+                <td>${m.date}</td>
+                <td>${m.paris}</td>
+                <td>${m.monaco}</td>
+                <td>${m.arena}</td>
+            </tr>
+        `;
     });
+
     html += `</table>`;
     container.innerHTML = html;
 }
@@ -130,7 +149,7 @@ function showSection(name) {
     const targetBtn = document.querySelector(`.nav-buttons button[onclick="showSection('${name}')"]`);
     if (targetBtn) targetBtn.classList.add("active");
 
-    // 3. Déclencher le rendu des graphiques UNIQUEMENT quand la section devient visible
+    // 3. Déclencher le rendu des graphiques UNIQUEMENT quand la section devient visible (évite le bug 0x0px)
     if (name === "prob" && !renderedCharts["prob"]) {
         renderProbChart(appData.pred);
         renderedCharts["prob"] = true;
