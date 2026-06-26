@@ -1,7 +1,7 @@
 {
   "before_match": {
-    "paris_win_prob": 50,
-    "monaco_win_prob": 50
+    "paris_win_prob": 45,
+    "monaco_win_prob": 55
   },
   "after_q1": {
     "paris_win_prob": 48,
