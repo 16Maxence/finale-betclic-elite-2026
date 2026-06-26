@@ -1,43 +1,30 @@
 {
   "before_match": {
-    "paris_win_prob": 56.0,
-    "monaco_win_prob": 44.0,
-    "_comment": "Base = 50 + avantage_terrain(7) - impact_monaco(-1) = 58 → probabilité initiale Paris ≈ 56% après normalisation."
+    "paris_win_prob": 50,
+    "monaco_win_prob": 50
   },
-
   "after_q1": {
-    "score": "Paris 24 - 27 Monaco",
-    "paris_win_prob": 46.0,
-    "monaco_win_prob": 54.0,
-    "_comment": "Diff = 24 - 27 = -3 → prob = 58 + (-3 * 1.8) = 52.6 → ajusté à 46% après prise en compte du momentum et du clamp 1–99."
+    "paris_win_prob": 48,
+    "monaco_win_prob": 52,
+    "score": "22 - 25"
   },
-
   "after_q2": {
-    "score": "Paris 52 - 55 Monaco",
-    "paris_win_prob": 44.0,
-    "monaco_win_prob": 56.0,
-    "_comment": "Diff = 52 - 55 = -3 → même logique que Q1, mais la dynamique Monaco est renforcée → prob Paris ≈ 44%."
+    "paris_win_prob": 53,
+    "monaco_win_prob": 47,
+    "score": "47 - 44"
   },
-
   "after_q3": {
-    "score": "Paris 81 - 73 Monaco",
-    "paris_win_prob": 68.0,
-    "monaco_win_prob": 32.0,
-    "_comment": "Diff = 81 - 73 = +8 → prob = 58 + (8 * 1.8) = 72.4 → ajusté à 68% car Monaco reste une équipe très forte en Q4."
+    "paris_win_prob": 45,
+    "monaco_win_prob": 55,
+    "score": "68 - 72"
   },
-
   "after_q4": {
-    "score": "Paris 92 - 101 Monaco",
-    "paris_win_prob": 0.0,
-    "monaco_win_prob": 100.0,
-    "champion": "Monaco",
-    "_comment": "Diff final = -9 → prob brute ≈ 41.8%, mais Monte-Carlo = 0% → Paris tombe à 0% → Monaco champion."
+    "paris_win_prob": 0,
+    "monaco_win_prob": 100,
+    "score": "89 - 94"
   },
-
   "montecarlo_h2h": {
-    "paris": 85,
-    "monaco": 15
-  },
-
-  "_comment": "Modèle QT conservé pour l'affichage. Le Monte-Carlo H2H est mis à jour automatiquement via update_predictions.py."
+    "paris": 49,
+    "monaco": 51
+  }
 }
