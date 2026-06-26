@@ -6,60 +6,68 @@
   },
 
   "last_matches": [
-    {
-      "date": "2026-06-14",
-      "arena": "Adidas Arena",
-      "paris": 95,
-      "monaco": 91
-    },
-    {
-      "date": "2026-06-10",
-      "arena": "Salle Gaston Médecin",
-      "paris": 82,
-      "monaco": 88
-    },
-    {
-      "date": "2026-06-07",
-      "arena": "Adidas Arena",
-      "paris": 101,
-      "monaco": 94
-    },
-    {
-      "date": "2026-06-04",
-      "arena": "Salle Gaston Médecin",
-      "paris": 76,
-      "monaco": 84
-    },
-    {
-      "date": "2026-05-30",
-      "arena": "Adidas Arena",
-      "paris": 89,
-      "monaco": 92
-    }
+    { "date": "2026-06-21", "arena": "LNB Pro A", "paris": 84, "monaco": 96 },
+    { "date": "2026-06-19", "arena": "LNB Pro A", "paris": 88, "monaco": 77 },
+    { "date": "2026-06-17", "arena": "LNB Pro A", "paris": 90, "monaco": 102 },
+    { "date": "2026-06-14", "arena": "LNB Pro A", "paris": 95, "monaco": 91 },
+    { "date": "2026-05-10", "arena": "LNB Pro A", "paris": 123, "monaco": 95 },
+
+    { "date": "2026-01-15", "arena": "EuroLigue", "paris": 87, "monaco": 95 },
+    { "date": "2025-12-04", "arena": "EuroLigue", "paris": 104, "monaco": 125 },
+    { "date": "2025-12-02", "arena": "France FBC", "paris": 103, "monaco": 109 },
+
+    { "date": "2025-10-12", "arena": "LNB Pro A", "paris": 94, "monaco": 99 },
+    { "date": "2025-06-24", "arena": "LNB Pro A", "paris": 99, "monaco": 93 },
+    { "date": "2025-06-22", "arena": "LNB Pro A", "paris": 80, "monaco": 93 },
+    { "date": "2025-06-20", "arena": "LNB Pro A", "paris": 74, "monaco": 81 },
+    { "date": "2025-06-17", "arena": "LNB Pro A", "paris": 92, "monaco": 67 },
+    { "date": "2025-06-15", "arena": "LNB Pro A", "paris": 94, "monaco": 82 },
+    { "date": "2025-03-09", "arena": "LNB Pro A", "paris": 63, "monaco": 94 },
+
+    { "date": "2025-03-05", "arena": "EuroLigue", "paris": 79, "monaco": 91 },
+
+    { "date": "2024-12-08", "arena": "LNB Pro A", "paris": 111, "monaco": 104 },
+    { "date": "2024-10-24", "arena": "EuroLigue", "paris": 87, "monaco": 80 },
+
+    { "date": "2024-06-12", "arena": "LNB Pro A", "paris": 76, "monaco": 115 },
+    { "date": "2024-06-09", "arena": "LNB Pro A", "paris": 59, "monaco": 88 },
+    { "date": "2024-06-06", "arena": "LNB Pro A", "paris": 77, "monaco": 70 },
+    { "date": "2024-06-04", "arena": "LNB Pro A", "paris": 80, "monaco": 90 },
+
+    { "date": "2024-02-17", "arena": "FLC", "paris": 98, "monaco": 93 },
+
+    { "date": "2024-01-13", "arena": "LNB Pro A", "paris": 85, "monaco": 92 },
+
+    { "date": "2023-12-03", "arena": "LNB Pro A", "paris": 62, "monaco": 84 },
+    { "date": "2023-02-05", "arena": "LNB Pro A", "paris": 81, "monaco": 103 },
+
+    { "date": "2022-10-16", "arena": "LNB Pro A", "paris": 91, "monaco": 95 },
+    { "date": "2022-03-20", "arena": "LNB Pro A", "paris": 69, "monaco": 76 },
+
+    { "date": "2021-10-31", "arena": "LNB Pro A", "paris": 75, "monaco": 100 }
   ],
 
   "averages": {
     "paris": {
-      "ppg": 88.6,
-      "opp_ppg": 89.8,
-      "fg2_pct": 54,
-      "fg3_pct": 36,
-      "reb": 38,
-      "to": 12
+      "ppg": 86.1,
+      "opp_ppg": 92.0
     },
     "monaco": {
-      "ppg": 89.8,
-      "opp_ppg": 88.6,
-      "fg2_pct": 55,
-      "fg3_pct": 35,
-      "reb": 40,
-      "to": 14
+      "ppg": 92.0,
+      "opp_ppg": 86.1
     }
   },
 
   "cumulative": {
-    "labels": ["Match 1", "Match 2", "Match 3", "Match 4", "Match 5"],
-    "paris": [1, 1, 2, 2, 2],
-    "monaco": [0, 1, 1, 2, 3]
+    "labels": [
+      "Match 1","Match 2","Match 3","Match 4","Match 5",
+      "Match 6","Match 7","Match 8","Match 9","Match 10",
+      "Match 11","Match 12","Match 13","Match 14","Match 15",
+      "Match 16","Match 17","Match 18","Match 19","Match 20",
+      "Match 21","Match 22","Match 23","Match 24","Match 25",
+      "Match 26","Match 27","Match 28","Match 29"
+    ],
+    "paris":  [0,1,1,2,3,3,3,3,3,4,4,4,5,6,6,6,6,7,7,7,7,8,8,8,9,9,9,10,10],
+    "monaco": [1,1,2,2,2,3,4,5,6,6,7,8,8,8,9,10,11,11,12,13,14,14,15,16,16,17,18,18,19]
   }
 }
