@@ -361,3 +361,45 @@ function renderH2HRadar(h2h) {
         }
     });
 }
+
+// ======================================================
+// 9. Graphique : Statistiques des 5 derniers matchs
+// ======================================================
+function renderStatsChart(stats) {
+    const canvas = document.getElementById("statsChart");
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Victoires", "Défaites"],
+            datasets: [
+                {
+                    label: "Paris",
+                    data: [stats.paris_last5.wins, stats.paris_last5.losses],
+                    backgroundColor: "#00c3ff",
+                    borderRadius: 6
+                },
+                {
+                    label: "Monaco",
+                    data: [stats.monaco_last5.wins, stats.monaco_last5.losses],
+                    backgroundColor: "#ff004c",
+                    borderRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { labels: { color: "white" } } },
+            scales: {
+                y: { 
+                    beginAtZero: true,
+                    ticks: { color: "white", stepSize: 1 } 
+                },
+                x: { ticks: { color: "white" } }
+            }
+        }
+    });
+}
