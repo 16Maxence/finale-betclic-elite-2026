@@ -98,24 +98,22 @@ function updateH2HTable(h2h) {
     container.innerHTML = html;
 }
 
-// Restant du fichier (Stats, Blessures et showSection) identique
 function updateStats(stats) {
     document.getElementById("stats-compare").innerHTML = `
         <div class="info-box">
-            <b>Paris — 5 derniers matchs</b><br>
+            <b>Paris — Historique Global (29 matchs)</b><br>
             ${stats.paris_last5.wins}V - ${stats.paris_last5.losses}D<br>
             Pts marqués : ${stats.paris_last5.ppg}<br>
             Pts encaissés : ${stats.paris_last5.opp_ppg}
         </div>
         <div class="info-box">
-            <b>Monaco — 5 derniers matchs</b><br>
+            <b>Monaco — Historique Global (29 matchs)</b><br>
             ${stats.monaco_last5.wins}V - ${stats.monaco_last5.losses}D<br>
             Pts marqués : ${stats.monaco_last5.ppg}<br>
             Pts encaissés : ${stats.monaco_last5.opp_ppg}
         </div>`;
 }
 
-// Reste des fonctions inchangé
 function updateInjuries(inj) {
     document.getElementById("injuries").innerHTML = `
         <div class="info-box">
@@ -130,16 +128,22 @@ function updateInjuries(inj) {
         </div>`;
 }
 
+// ======================================================
+// GESTION DES ONGLETS ET RENDU DES GRAPHIKES
+// ======================================================
 function showSection(name) {
+    // 1. Masquer les sections et désactiver les boutons
     document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
     document.querySelectorAll(".nav-buttons button").forEach(btn => btn.classList.remove("active"));
 
+    // 2. Afficher la section demandée
     const targetSection = document.querySelector(`[data-section="${name}"]`);
     if (targetSection) targetSection.classList.add("active");
 
     const targetBtn = document.querySelector(`.nav-buttons button[onclick="showSection('${name}')"]`);
     if (targetBtn) targetBtn.classList.add("active");
 
+    // 3. Déclencher le rendu des graphiques UNIQUEMENT quand la section devient visible (évite le bug 0x0px)
     if (name === "prob" && !renderedCharts["prob"]) {
         renderProbChart(appData.pred);
         renderedCharts["prob"] = true;
@@ -159,5 +163,8 @@ function showSection(name) {
     else if (name === "stats" && !renderedCharts["stats"]) {
         renderStatsChart(appData.stats);
         renderedCharts["stats"] = true;
+    }
+    else if (name === "calc") {
+        // Section textuelle pure pour l'onglet Calculs, aucun rendu Chart.js n'est requis
     }
 }
